@@ -1,0 +1,22 @@
+.input-search {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.d-none {
+    display: none;
+}
+
+.secondaryText {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.img-container {
+    width: 150px;
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}

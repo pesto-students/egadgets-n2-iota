@@ -1,0 +1,15 @@
+.carousel-prod .slide>div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-prod .thumb {
+    height: 80px;
+}
+
+.carousel-prod .thumb>img {
+    height: 100%;
+    width: auto;
+}

@@ -1,0 +1,41 @@
+.text-success {
+    color: #b8cd06;
+}
+
+.text-failure {
+    color: red;
+}
+
+.text-strike {
+    text-decoration: line-through;
+}
+
+.quantity-field {
+    width: 100px;
+}
+
+.quantity-button {
+    position: relative;
+    left: -24px;
+}
+
+.product-desc-image {
+    width: 100%;
+}
+
+.quantity-number {
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.btn-buy:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.container {
+    margin: 50px;
+}

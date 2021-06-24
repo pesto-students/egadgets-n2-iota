@@ -1,0 +1,11 @@
+/* .textField-label-adjust>label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
+
+@media only screen and (max-width: 480px) {
+    .p1em {
+        padding: 1em !important;
+    }
+}

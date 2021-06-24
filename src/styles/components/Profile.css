@@ -1,0 +1,31 @@
+.icons {
+    width: 50px;
+    height: 46px;
+}
+
+.d-none {
+    display: none;
+}
+
+.input-text {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.show-icon {
+    display: none !important;
+}
+
+@media (max-width: 567px) {
+    .hide-info {
+        display: none;
+    }
+    .show-icon {
+        display: block !important;
+    }
+}
+
+.min-height-70vh {
+    min-height: 70vh;
+}

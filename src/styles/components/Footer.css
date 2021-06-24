@@ -1,0 +1,42 @@
+footer {
+    margin-top: 70px;
+    padding: 40px 0px;
+}
+
+.footer-background {
+    background-color: #343434;
+    color: white;
+}
+
+.footer-img-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+}
+
+.footer-btn {
+    border: 1px solid rgb(170, 170, 170) !important;
+    background-color: #585757 !important;
+    border-radius: 15px !important;
+    color: white !important;
+}
+
+.white-font-color {
+    color: #ffffff;
+}
+
+.link {
+    text-decoration: none !important;
+}
+
+.openQuote {
+    font-size: 30px;
+    font-family: "Odibee Sans";
+    line-height: 0px;
+    display: inline-block;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0px;
+}

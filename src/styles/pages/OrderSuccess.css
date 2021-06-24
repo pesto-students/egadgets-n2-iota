@@ -1,0 +1,35 @@
+.order-success {
+  text-align: center;
+  padding: 50px 0px;
+}
+
+.order-success h1 {
+  font-size: 70px;
+  color: #5fe10e;
+  margin-bottom: 20px;
+}
+
+.order-success h1 > svg {
+  font-size: 100px;
+}
+
+.order-success p {
+  line-height: 30px;
+  margin-bottom: 30px;
+}
+
+.order-success a {
+  background-color: #000;
+  color: #fff;
+  border-radius: 2px;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 3px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.order-success a > svg {
+  position: relative;
+  top: 5px;
+}

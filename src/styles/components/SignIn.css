@@ -1,0 +1,17 @@
+.link {
+    color: #0090f9;
+    text-decoration: underline;
+}
+
+.new-to-EGadget {
+    position: absolute;
+    top: -10px;
+    transform: translateX(-50%);
+    left: 50%;
+    background: white;
+}
+
+.loader {
+    top: 28px;
+    right: 10px;
+}

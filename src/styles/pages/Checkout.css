@@ -1,0 +1,49 @@
+.checkout-card {
+    box-shadow: 0px 0px 2px rgb(134, 134, 134);
+    background-color: #fff;
+}
+
+.checkout-card-heading h1 {
+    background-color: #343434;
+    padding: 20px 10px;
+    color: #fff;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.checkout-card-body {
+    /* padding: 25px; */
+    background-color: #fff;
+}
+
+.delivery-tag {
+    background-color: rgb(216, 17, 17);
+    padding: 2px 5px;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+address {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.user-addresses {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkout-total {
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected {
+    box-shadow: 0px 0px 8px 0px #ff8a00 !important;
+}
+
+.not-selected {
+    box-shadow: 0px 0px 8px 0px #ffffff;
+}

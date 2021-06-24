@@ -1,0 +1,11 @@
+.styled-button {
+  padding: 10px 25px;
+  text-align: center;
+  border: none;
+  text-transform: uppercase;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #b8cd06;
+  color: #fff;
+  margin: 10px 0px;
+}
