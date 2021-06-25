@@ -1,34 +1,34 @@
-import { Container, Divider, Grid } from '@material-ui/core';
-import React, { Component } from 'react';
-import '../styles/components/OrderHistory.css';
-import StyledButton from '../components/common/form/StyledButton';
-import { connect } from 'react-redux';
-import { fetchingOrdersData } from '../actions/OrdersHistoryAction';
-import Truncate from 'react-truncate';
-import { Link } from 'react-router-dom';
-import Skeleton from '@material-ui/lab/Skeleton';
-import Cookies from 'universal-cookie';
-import { fetchingAuthData } from '../actions/AuthAction';
-import { NotificationManager } from 'react-notifications';
-const _ = require('lodash');
+import { Container, Divider, Grid } from "@material-ui/core";
+import React, { Component } from "react";
+import "../styles/components/OrderHistory.css";
+import StyledButton from "../components/common/form/StyledButton";
+import { connect } from "react-redux";
+import { fetchingOrdersData } from "../actions/OrdersHistoryAction";
+import Truncate from "react-truncate";
+import { Link } from "react-router-dom";
+import Skeleton from "@material-ui/lab/Skeleton";
+import Cookies from "universal-cookie";
+import { fetchingAuthData } from "../actions/AuthAction";
+import { NotificationManager } from "react-notifications";
+const _ = require("lodash");
 class OrderHistory extends Component {
   state = {
     totalOrders: 1,
     orders: [],
-    search: '',
+    search: "",
   };
 
   componentDidMount() {
     const cookies = new Cookies();
-    const sessionToken = cookies.get('sessionToken');
+    const sessionToken = cookies.get("sessionToken");
 
     if (sessionToken === null || sessionToken === undefined) {
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     } else if (sessionToken && Object.keys(this.props.authData).length > 0) {
       this.props.fetchingOrdersData({ userId: this.props.authData.objectId });
     } else if (sessionToken && Object.keys(this.props.authData).length === 0) {
       this.props.fetchingAuthData({
-        apiType: 'userMe',
+        apiType: "userMe",
         sessionToken,
       });
     }
@@ -57,11 +57,11 @@ class OrderHistory extends Component {
       NotificationManager.error(
         this.props.authError.error
           ? this.props.authError.error
-          : 'Problem in getting user session data',
-        'Error',
-        this.props.authError.code ? this.props.authError.code : 101
+          : "Problem in getting user session data",
+        "Error",
+        200
       );
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     }
   }
 
@@ -85,7 +85,7 @@ class OrderHistory extends Component {
         </Grid>
 
         {this.state.orders && this.state.orders.length > 0 ? (
-          _.sortBy(this.state.orders, ['createdAt'], ['desc']).map(
+          _.sortBy(this.state.orders, ["createdAt"], ["desc"]).map(
             (value, key) => (
               <div key={key}>
                 <Grid
@@ -100,14 +100,14 @@ class OrderHistory extends Component {
                         <p className="p-5">Order Placed</p>
                         <p className="p-5 secondaryText">
                           {new Date(value.createdAt).toLocaleDateString(
-                            'en-IN'
+                            "en-IN"
                           )}
                         </p>
                       </Grid>
                       <Grid item md={2} lg={2} sm={6} xs={12}>
                         <p className="p-5">Total</p>
                         <p className="p-5 secondaryText">
-                          {`Rs. ${Number(value.total).toLocaleString('en-IN')}`}
+                          {`Rs. ${Number(value.total).toLocaleString("en-IN")}`}
                         </p>
                       </Grid>
 
@@ -169,7 +169,7 @@ class OrderHistory extends Component {
                         </Grid>
                         <Grid item xs={12} md={2} lg={2}>
                           {`Rs. ${Number(product.price).toLocaleString(
-                            'en-IN'
+                            "en-IN"
                           )}`}
                         </Grid>
                       </Grid>
@@ -181,11 +181,11 @@ class OrderHistory extends Component {
           )
         ) : this.state.orders.length === 0 &&
           this.state.orderHistoryLoading === false ? (
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
             <p>You don't have any orders yet!</p>
             <StyledButton
               text="Explore Products"
-              onHandleClick={() => this.props.history.push('/')}
+              onHandleClick={() => this.props.history.push("/")}
             />
           </div>
         ) : (
@@ -194,10 +194,10 @@ class OrderHistory extends Component {
             spacing={5}
             alignItems="center"
             style={{
-              padding: '10px;',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              marginTop: '20px',
+              padding: "10px;",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              marginTop: "20px",
             }}
           >
             <Grid item md={2} lg={2} xs={12} sm={6}>

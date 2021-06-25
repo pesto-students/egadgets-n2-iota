@@ -10,57 +10,57 @@ import {
   TextField,
   Tooltip,
   IconButton,
-} from '@material-ui/core';
-import React, { Component } from 'react';
-import '../../styles/components/Profile.css';
-import BusinessIcon from '@material-ui/icons/Business';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import StyledButton from '../../components/common/form/StyledButton';
-import Cookies from 'universal-cookie';
-import { savingProfileData } from '../../actions/ProfileAction';
-import { connect } from 'react-redux';
-import { Skeleton } from '@material-ui/lab';
-import { fetchingAuthData, resetAuthData } from '../../actions/AuthAction';
-import { NotificationManager } from 'react-notifications';
-import AddressManage from '../AddressManage';
-import Truncate from 'react-truncate';
-import { trimText } from '../../helpers/Util';
+} from "@material-ui/core";
+import React, { Component } from "react";
+import "../../styles/components/Profile.css";
+import BusinessIcon from "@material-ui/icons/Business";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import StyledButton from "../../components/common/form/StyledButton";
+import Cookies from "universal-cookie";
+import { savingProfileData } from "../../actions/ProfileAction";
+import { connect } from "react-redux";
+import { Skeleton } from "@material-ui/lab";
+import { fetchingAuthData, resetAuthData } from "../../actions/AuthAction";
+import { NotificationManager } from "react-notifications";
+import AddressManage from "../AddressManage";
+import Truncate from "react-truncate";
+import { trimText } from "../../helpers/Util";
 
 class Profile extends Component {
   state = {
-    gender: '',
-    email: '',
-    phone: '',
-    name: '',
+    gender: "",
+    email: "",
+    phone: "",
+    name: "",
     editable: true,
     enableProfile: true,
     enableAddress: false,
-    user: '',
-    userId: '',
+    user: "",
+    userId: "",
     initaladdress: {
-      addressTitle: 'home',
-      city: '',
-      className: 'AddressInfo',
-      firstName: '',
-      lastName: '',
-      mobile: '',
-      pincode: '',
-      state: '',
-      streetAddress: '',
+      addressTitle: "home",
+      city: "",
+      className: "AddressInfo",
+      firstName: "",
+      lastName: "",
+      mobile: "",
+      pincode: "",
+      state: "",
+      streetAddress: "",
     },
-    sessionToken: '',
+    sessionToken: "",
   };
 
   componentDidMount() {
     window.scrollTo(0, 0);
     const cookies = new Cookies();
-    const sessionToken = cookies.get('sessionToken');
+    const sessionToken = cookies.get("sessionToken");
     this.setState({ ...this.state, sessionToken });
     if (sessionToken && Object.keys(this.props.authData).length > 0) {
       this.setState({
         gender: this.props.authData.Gender
           ? this.props.authData.Gender
-          : 'female',
+          : "female",
         email: this.props.authData.email,
         phone: Number(this.props.authData.mobile),
         name: this.props.authData.name,
@@ -76,12 +76,12 @@ class Profile extends Component {
     } else if (sessionToken) {
       this.props.dispatch(
         fetchingAuthData({
-          apiType: 'userMe',
+          apiType: "userMe",
           sessionToken,
         })
       );
     } else {
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     }
   }
 
@@ -95,7 +95,7 @@ class Profile extends Component {
         ...this.state,
         gender: this.props.authData.Gender
           ? this.props.authData.Gender
-          : 'female',
+          : "female",
         email: this.props.authData.email,
         phone: Number(this.props.authData.mobile),
         name: this.props.authData.name,
@@ -109,11 +109,11 @@ class Profile extends Component {
       NotificationManager.error(
         this.props.authError.error
           ? this.props.authError.error
-          : 'Problem in getting user session data',
-        'Error',
-        this.props.authError.code ? this.props.authError.code : 101
+          : "Problem in getting user session data",
+        "Error",
+        200
       );
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     }
 
     if (
@@ -121,16 +121,22 @@ class Profile extends Component {
       this.props.saveProfileSavingLoading === false &&
       this.props.saveProfileError === null
     ) {
-      NotificationManager.success('saved successfully', 'Success', 200);
+      NotificationManager.success("saved successfully", "Success", 200);
       const cookies = new Cookies();
-      const sessionToken = cookies.get('sessionToken');
+      const sessionToken = cookies.get("sessionToken");
       this.props.dispatch(
         fetchingAuthData({
-          apiType: 'userMe',
+          apiType: "userMe",
           sessionToken,
         })
       );
       this.setState({ ...this.state, editable: !this.state.editable });
+    } else if (
+      !!!prevChange.saveProfileSavingLoading &&
+      this.props.saveProfileSavingLoading === true &&
+      this.props.saveProfileError === null
+    ) {
+      NotificationManager.info("Profile save is loading", "Loading", 200);
     } else if (
       prevChange.saveProfileSavingLoading === true &&
       this.props.saveProfileSavingLoading === false &&
@@ -139,11 +145,9 @@ class Profile extends Component {
       NotificationManager.error(
         this.props.saveProfileError.error
           ? this.props.saveProfileError.error
-          : 'Problem in saving profile',
-        'Error',
-        this.props.saveProfileError.code
-          ? this.props.saveProfileError.code
-          : 101
+          : "Problem in saving profile",
+        "Error",
+        200
       );
     }
   }
@@ -160,10 +164,10 @@ class Profile extends Component {
     };
 
     const handlePage = (value) => {
-      if (value === 'profileInfo') {
+      if (value === "profileInfo") {
         this.setState({ enableProfile: true });
         this.setState({ enableAddress: false });
-      } else if (value === 'addressInfo') {
+      } else if (value === "addressInfo") {
         this.setState({ enableAddress: true });
         this.setState({ enableProfile: false });
       }
@@ -173,7 +177,7 @@ class Profile extends Component {
       let saveProfile = {
         Gender: this.state.gender,
         name: this.state.name,
-        mobile: this.state.phone + '',
+        mobile: this.state.phone + "",
         email: this.state.email,
         objectId: this.state.userId
           ? this.state.userId
@@ -186,9 +190,9 @@ class Profile extends Component {
     const handleLogout = () => {
       const cookies = new Cookies();
       this.props.dispatch(resetAuthData());
-      cookies.remove('sessionToken');
-      NotificationManager.success('Logged Out successfully', 'Success', 200);
-      this.props.history.push('/');
+      cookies.remove("sessionToken");
+      NotificationManager.success("Logged Out successfully", "Success", 200);
+      this.props.history.push("/");
     };
 
     return (
@@ -251,9 +255,9 @@ class Profile extends Component {
                           className=" pl-10 p-5 font-size-14 font-color-gray"
                         >
                           <Truncate className="w-100" lines={1}>
-                            {'('}
+                            {"("}
                             {this.state.email}
-                            {')'}
+                            {")"}
                           </Truncate>
                         </Typography>
                       </Grid>
@@ -285,7 +289,7 @@ class Profile extends Component {
                         ) : (
                           <Tooltip title="Profile Information">
                             <IconButton
-                              onClick={() => handlePage('profileInfo')}
+                              onClick={() => handlePage("profileInfo")}
                             >
                               <AccountCircleIcon />
                             </IconButton>
@@ -302,7 +306,7 @@ class Profile extends Component {
                         ) : (
                           <p
                             className=" pl-10 pointer"
-                            onClick={() => handlePage('profileInfo')}
+                            onClick={() => handlePage("profileInfo")}
                           >
                             Profile Information
                           </p>
@@ -327,7 +331,7 @@ class Profile extends Component {
                         ) : (
                           <Tooltip title="Manage Address">
                             <IconButton
-                              onClick={() => handlePage('addressInfo')}
+                              onClick={() => handlePage("addressInfo")}
                             >
                               <BusinessIcon />
                             </IconButton>
@@ -344,7 +348,7 @@ class Profile extends Component {
                         ) : (
                           <p
                             className="pl-10 pointer"
-                            onClick={() => handlePage('addressInfo')}
+                            onClick={() => handlePage("addressInfo")}
                           >
                             Manage Addresses
                           </p>
@@ -403,8 +407,8 @@ class Profile extends Component {
                           <StyledButton
                             text="Save"
                             customStyle={{
-                              backgroundColor: '#b8cd06',
-                              marginLeft: '5px',
+                              backgroundColor: "#b8cd06",
+                              marginLeft: "5px",
                             }}
                             onHandleClick={handleSave.bind(this)}
                           />
@@ -412,8 +416,8 @@ class Profile extends Component {
                           <StyledButton
                             text="Edit"
                             customStyle={{
-                              backgroundColor: '#ff8a00',
-                              marginLeft: '5px',
+                              backgroundColor: "#ff8a00",
+                              marginLeft: "5px",
                             }}
                             onHandleClick={handleEditing}
                           />
@@ -427,7 +431,7 @@ class Profile extends Component {
 
                     {this.props.authLoading && !!!this.state.name ? (
                       <Skeleton animation="wave" width="100%" className="p-10">
-                        <div className="p-20"></div>{' '}
+                        <div className="p-20"></div>{" "}
                       </Skeleton>
                     ) : (
                       <TextField
@@ -501,7 +505,7 @@ class Profile extends Component {
                     <p className="pb-10">Phone Number</p>
                     {this.props.authLoading && !!!this.state.name ? (
                       <Skeleton animation="wave" width="100%" className="p-10">
-                        <div className="p-20"></div>{' '}
+                        <div className="p-20"></div>{" "}
                       </Skeleton>
                     ) : (
                       <TextField
@@ -561,7 +565,7 @@ class Profile extends Component {
                   </Grid>
                 </Grid>
               ) : (
-                ''
+                ""
               )}
 
               {this.state.enableAddress ? (
@@ -569,7 +573,7 @@ class Profile extends Component {
                   <AddressManage className="h-100" isFromProfile={true} />
                 </div>
               ) : (
-                ''
+                ""
               )}
             </Grid>
           </Grid>

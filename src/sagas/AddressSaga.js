@@ -10,7 +10,6 @@ import {
 
 function* AddressData(action) {
     try {
-        console.log(action);
         const address = yield call(
             action.payload.objectId ? AddressUpdateAPI : AddressSaveAPI,
             action.payload
@@ -26,7 +25,6 @@ function* AddressData(action) {
         }
 
     } catch (e) {
-        console.log(e);
         yield put(addressAction.saveAddressDataError(e));
     }
 }
@@ -45,7 +43,6 @@ function* GetAddressData(action) {
         }
 
     } catch (e) {
-        console.log(e);
         yield put(addressAction.addressDataError(e));
     }
 }
@@ -63,7 +60,6 @@ function* deleteAddress(action) {
             yield put(addressAction.getDeleteAddressDataSuccess(address));
         }
     } catch (e) {
-        console.log(e);
         yield put(addressAction.deleteAddressDataError(e));
     }
 }

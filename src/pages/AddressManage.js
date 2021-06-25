@@ -20,9 +20,13 @@ class AddressManage extends Component {
     const cookies = new Cookies();
     const sessionToken = cookies.get("sessionToken");
     if (sessionToken && Object.keys(this.props.authData).length > 0) {
-      this.props.dispatch(
-        addressAction.fetchingAddressData(this.props.authData.objectId)
-      );
+      if (this.props.addressData && this.props.addressData.length > 0) {
+        this.setState({ ...this.state, addressData: this.props.addressData });
+      } else {
+        this.props.dispatch(
+          addressAction.fetchingAddressData(this.props.authData.objectId)
+        );
+      }
     } else if (sessionToken) {
       this.props.dispatch(
         fetchingAuthData({
@@ -54,8 +58,15 @@ class AddressManage extends Component {
           ? this.props.addressError.error
           : "Error in fetching address data",
         "Error",
-        this.props.addressError.code ? this.props.addressError.code : 101
+        200
       );
+    }
+    if (
+      prevChange.saveAddressLoading === false &&
+      this.props.saveAddressLoading === true &&
+      this.props.addressError === null
+    ) {
+      NotificationManager.info("Address save is loading", "Loading", 200);
     }
 
     if (
@@ -69,7 +80,18 @@ class AddressManage extends Component {
           "Success",
           200
         );
+        this.props.dispatch(
+          addressAction.fetchingAddressData(this.props.authData.objectId)
+        );
       }
+    }
+
+    if (
+      !!!prevChange.deleteAddressLoading &&
+      this.props.deleteAddressLoading === true &&
+      this.props.deleteAddressError === null
+    ) {
+      NotificationManager.info("Address Delete is loading", "Loading", 200);
     }
 
     if (
@@ -87,6 +109,9 @@ class AddressManage extends Component {
       );
 
       this.setState({ ...this.state, addressData: add });
+      this.props.dispatch(
+        addressAction.fetchingAddressData(this.props.authData.objectId)
+      );
     }
 
     if (
@@ -107,7 +132,7 @@ class AddressManage extends Component {
           ? this.props.authError.error
           : "Problem in getting user session data",
         "Error",
-        this.props.authError.code ? this.props.authError.code : 101
+        200
       );
       this.props.history.push("/signin");
     }
@@ -128,6 +153,7 @@ class AddressManage extends Component {
       };
 
       this.setState({
+        ...this.state,
         addressData: [
           ...this.state.addressData,
           { ...addressData, id: this.state.id++ },
@@ -210,7 +236,7 @@ class AddressManage extends Component {
               {this.state.addressData.length === 0 ? (
                 <Grid item>
                   <Paper className="p-20 mt-10 text-align-center">
-                    No Address
+                    No Address Found
                   </Paper>
                 </Grid>
               ) : (

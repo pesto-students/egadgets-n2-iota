@@ -1,8 +1,8 @@
-import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import '../../../styles/components/productCaerousel.css';
+import React from "react";
+import { Carousel } from "react-responsive-carousel";
+import "../../../styles/components/productCaerousel.css";
 
-export default (props) => {
+const ProductDetailCaerousel = (props) => {
   return (
     <Carousel autoPlay className="carousel-prod">
       {props.imageArray.map((image, index) => (
@@ -13,3 +13,4 @@ export default (props) => {
     </Carousel>
   );
 };
+export default ProductDetailCaerousel;

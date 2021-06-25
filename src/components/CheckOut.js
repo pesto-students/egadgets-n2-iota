@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { Container, Grid, Paper } from '@material-ui/core';
-import '../styles/pages/Checkout.css';
-import CartItemList from './cart/CartItemList';
-import CartSummary from './cart/CartSummary';
-import { razorPayKey } from '../config';
-import Cookies from 'universal-cookie';
-import { connect } from 'react-redux';
-import { fetchingAuthData } from '../actions/AuthAction';
-import { fetchingAddressData } from '../actions/AddressAction';
-import SingleAddress from './common/SingleAddress';
-import CreateOrderApi from '../apis/CreateOrderApi';
-import { ClearCart } from '../actions/CartAction';
-import { NotificationManager } from 'react-notifications';
+import React, { Component } from "react";
+import { Container, Grid, Paper } from "@material-ui/core";
+import "../styles/pages/Checkout.css";
+import CartItemList from "./cart/CartItemList";
+import CartSummary from "./cart/CartSummary";
+import { razorPayKey } from "../config";
+import Cookies from "universal-cookie";
+import { connect } from "react-redux";
+import { fetchingAuthData } from "../actions/AuthAction";
+import { fetchingAddressData } from "../actions/AddressAction";
+import SingleAddress from "./common/SingleAddress";
+import CreateOrderApi from "../apis/CreateOrderApi";
+import { ClearCart } from "../actions/CartAction";
+import { NotificationManager } from "react-notifications";
 
 class Checkout extends Component {
   state = {
-    selectedValue: '',
+    selectedValue: "",
     open: false,
     addressData: [],
     selectedShippingAddress: {},
@@ -23,13 +23,13 @@ class Checkout extends Component {
 
   componentDidMount() {
     const cookies = new Cookies();
-    const sessionToken = cookies.get('sessionToken');
+    const sessionToken = cookies.get("sessionToken");
     if (sessionToken === null || sessionToken === undefined) {
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     } else if (sessionToken && Object.keys(this.props.authData).length === 0) {
       this.props.dispatch(
         fetchingAuthData({
-          apiType: 'userMe',
+          apiType: "userMe",
           sessionToken,
         })
       );
@@ -38,7 +38,7 @@ class Checkout extends Component {
     }
 
     if (!this.props.totalItems) {
-      this.props.history.push('/cart');
+      this.props.history.push("/cart");
     }
   }
 
@@ -57,11 +57,11 @@ class Checkout extends Component {
       NotificationManager.error(
         this.props.authError.error
           ? this.props.authError.error
-          : 'Problem in getting user session data',
-        'Error',
-        this.props.authError.code ? this.props.authError.code : 101
+          : "Problem in getting user session data",
+        "Error",
+        200
       );
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     }
 
     if (
@@ -84,9 +84,9 @@ class Checkout extends Component {
       NotificationManager.error(
         this.props.addressError.error
           ? this.props.addressError.error
-          : 'Problem in getting Address data',
-        'Error',
-        this.props.addressError.code ? this.props.addressError.code : 101
+          : "Problem in getting Address data",
+        "Error",
+        200
       );
     }
 
@@ -97,8 +97,8 @@ class Checkout extends Component {
     ) {
       if (this.props.saveAddress) {
         NotificationManager.success(
-          'Address saved successfully',
-          'Success',
+          "Address saved successfully",
+          "Success",
           200
         );
       }
@@ -110,9 +110,9 @@ class Checkout extends Component {
       NotificationManager.error(
         this.props.addressError.error
           ? this.props.addressError.error
-          : 'Problem in saving Address',
-        'Error',
-        this.props.addressError.code ? this.props.addressError.code : 101
+          : "Problem in saving Address",
+        "Error",
+        200
       );
     }
   }
@@ -146,7 +146,7 @@ class Checkout extends Component {
 
     const loadScript = (src) => {
       return new Promise((resolve) => {
-        const script = document.createElement('script');
+        const script = document.createElement("script");
         script.src = src;
         script.onload = () => {
           resolve(true);
@@ -160,7 +160,7 @@ class Checkout extends Component {
 
     const displayRazorpay = async () => {
       if (calculateTotal() <= 0) {
-        alert('The amount must be greater than zero');
+        alert("The amount must be greater than zero");
       }
 
       const products = this.props.items;
@@ -169,20 +169,20 @@ class Checkout extends Component {
       const address = this.state.selectedShippingAddress;
 
       if (address == null) {
-        alert('please choose the delivery address');
+        alert("please choose the delivery address");
         return;
       }
 
       if (userData$ === null || userData$ === undefined) {
-        this.props.history.push('/signin');
+        this.props.history.push("/signin");
       }
 
       const options = {
         key: razorPayKey, // Enter the Key ID generated from the Dashboard
         amount: calculateTotal() * 100,
-        currency: 'INR',
-        name: 'EGadgets',
-        description: 'Test Transaction',
+        currency: "INR",
+        name: "EGadgets",
+        description: "Test Transaction",
         image: null,
         prefill: {
           name: userData$?.fullName,
@@ -192,8 +192,8 @@ class Checkout extends Component {
           const orderObj = {
             qty: 1,
             orderId: Date.now().toString(),
-            transactionStatus: 'complete',
-            deliveryStatus: 'Pending',
+            transactionStatus: "complete",
+            deliveryStatus: "Pending",
             transactionId: response.razorpay_payment_id,
             notes: `${
               userData$.objectId
@@ -202,8 +202,8 @@ class Checkout extends Component {
             total: calculateTotal(),
             products: products,
             deliveryAddress: {
-              __type: 'Pointer',
-              className: 'AddressInfo',
+              __type: "Pointer",
+              className: "AddressInfo",
               objectId: address.objectId,
             },
           };
@@ -211,11 +211,11 @@ class Checkout extends Component {
           const orderResponse = await CreateOrderApi(orderObj);
           if (orderResponse != null) {
             props$.dispatch(ClearCart());
-            props$.history.push('/order-success');
+            props$.history.push("/order-success");
           }
         },
         theme: {
-          color: '#B8CD06',
+          color: "#B8CD06",
         },
       };
 
@@ -258,8 +258,8 @@ class Checkout extends Component {
                                 className={
                                   this.state.selectedShippingAddress
                                     .objectId === address.objectId
-                                    ? 'selected p-20 mt-10'
-                                    : 'not-selected p-20 mt-10'
+                                    ? "selected p-20 mt-10"
+                                    : "not-selected p-20 mt-10"
                                 }
                                 onClick={() => handleChangeAddress(address)}
                               >
@@ -280,7 +280,7 @@ class Checkout extends Component {
                         {this.state.addressData.length === 0 && (
                           <Grid item>
                             <Paper className="p-20 mt-10 text-align-center">
-                              No Address
+                              No Address Found
                             </Paper>
                           </Grid>
                         )}

@@ -49,7 +49,6 @@ class SignIn extends Component {
       NotificationManager.success("Login Successfull", "Success", 400);
       const cookies = new Cookies();
       cookies.set("sessionToken", this.props.profile.sessionToken);
-      console.log(this.props, prevChange);
       this.props.history.goBack();
     } else if (
       prevChange.profileLoading === true &&
@@ -75,18 +74,16 @@ class SignIn extends Component {
       this.props.forgotPasswordLoading === false &&
       this.props.forgotPasswordError
     ) {
-      console.log(this.props.forgotPasswordError);
       NotificationManager.error(
         this.props.forgotPasswordError.error,
         "Error",
-        101
+        200
       );
     }
   }
 
   render() {
     const handleSignIn = () => {
-      console.log(this.state);
       this.props.dispatch(
         actions.fetchingAuthData({
           apiType: "signIn",

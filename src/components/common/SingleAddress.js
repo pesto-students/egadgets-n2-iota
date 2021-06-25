@@ -81,15 +81,11 @@ class SingleAddress extends Component {
                     ) : (
                       ""
                     )}{" "}
-                    {this.state.addressTitle ? this.state.addressTitle : ""}{" "}
-                    &nbsp;
+                    {this.state.firstName ? this.state.firstName : ""}
+                    {this.state.lastName ? this.state.lastName : ""} &nbsp;
                     <small>{this.state.mobile ? this.state.mobile : ""}</small>
                   </p>
                   <address>
-                    {this.state.firstName
-                      ? this.state.firstName
-                      : this.state.firstName}
-                    {this.state.lastName ? this.state.lastName + "," : ""}{" "}
                     {this.state.streetAddress
                       ? this.state.streetAddress + ","
                       : ""}{" "}

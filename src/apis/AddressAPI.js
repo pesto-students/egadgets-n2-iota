@@ -1,6 +1,5 @@
 import { appId, restKey, serverUrl } from '../config';
 export const AddressSaveAPI = async(addressData) => {
-    console.log(addressData);
     try {
         const url = serverUrl + 'classes/AddressInfo';
         const body = {...addressData };
@@ -20,7 +19,6 @@ export const AddressSaveAPI = async(addressData) => {
 };
 
 export const AddressUpdateAPI = async(addressData) => {
-    console.log(addressData);
     try {
         const url = serverUrl + 'classes/AddressInfo/' + addressData.objectId;
         const body = {...addressData };
@@ -56,7 +54,6 @@ export const AddressDeleteAPI = async(objectId) => {
 };
 
 export const FetchAddressAPI = async(userId) => {
-    console.log(userId);
     try {
         const url = serverUrl + 'functions/getAddresses';
         const body = {

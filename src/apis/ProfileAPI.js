@@ -1,6 +1,5 @@
 import { appId, restKey, serverUrl } from '../config';
 export const SaveProfileAPI = async(profileData, sessionToken) => {
-    console.log(profileData);
     try {
         const url = serverUrl + 'users/' + profileData.objectId;
         const body = {
@@ -23,7 +22,6 @@ export const SaveProfileAPI = async(profileData, sessionToken) => {
 };
 
 export const GetProfileAPI = async(payload) => {
-    console.log(payload);
     try {
         const url = serverUrl + 'functions/getProfileData';
         const body = {

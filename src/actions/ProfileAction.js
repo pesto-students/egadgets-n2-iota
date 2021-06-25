@@ -1,7 +1,6 @@
 import * as actions from "../constants/ActionTypes";
 
 export function savingProfileData(profileData, sessionToken) {
-    console.log(profileData);
     return {
         type: actions.SAVING_PROFILE_DATA,
         profileData,
@@ -26,7 +25,6 @@ export function ProfileDataError(error) {
 
 
 export function fetchingProfileData(userId) {
-    console.log(userId);
     return {
         type: actions.FETCHING_PROFILE_DATA,
         payload: userId,

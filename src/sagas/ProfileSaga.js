@@ -5,7 +5,6 @@ import { SaveProfileAPI } from '../apis/ProfileAPI';
 
 function* SaveProfileDetails(action) {
     try {
-        console.log(action);
         const profile = yield call(SaveProfileAPI, action.profileData, action.sessionToken);
 
         if (profile.code) {
@@ -19,7 +18,6 @@ function* SaveProfileDetails(action) {
         }
 
     } catch (e) {
-        console.log(e);
         yield put(profileAction.ProfileDataError(e));
     }
 }

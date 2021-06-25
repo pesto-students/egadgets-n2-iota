@@ -40,16 +40,6 @@ class ProductDetails extends Component {
     if (
       prevChange.productDetailsLoading === true &&
       this.props.productDetailsLoading === false &&
-      this.props.productDetailsError === null
-    ) {
-      NotificationManager.success(
-        "fetched product details successfully",
-        "Success",
-        200
-      );
-    } else if (
-      prevChange.productDetailsLoading === true &&
-      this.props.productDetailsLoading === false &&
       this.props.productDetailsError
     ) {
       NotificationManager.error(
@@ -57,9 +47,7 @@ class ProductDetails extends Component {
           ? this.props.productDetailsError.error
           : "Problem in fetching product details page",
         "Error",
-        this.props.productDetailsError.code
-          ? this.props.productDetailsError.code
-          : 101
+        200
       );
     }
   }
@@ -179,7 +167,7 @@ class ProductDetails extends Component {
                     variant="subtitle1"
                     className="flex-box mt-20"
                   >
-                    {"Availabiity: "}
+                    {"Availabiity: "}&nbsp;
                     {this.props.productDetails.stock > 0 ? (
                       <div className="flex-box">
                         <span className="text-success"> In Stock</span>
@@ -202,18 +190,21 @@ class ProductDetails extends Component {
                       this.props.productDetails.stock > 0 ? "" : "d-none"
                     }
                   >
-                    Rs
-                    {this.props.productDetails.bigPrice -
-                      this.props.productDetails.finalPrice}
-                    Discount Hurry up! only {this.props.productDetails.stock}
-                    products left in stock!
+                    <strong>
+                      Rs.
+                      {this.props.productDetails.bigPrice -
+                        this.props.productDetails.finalPrice}
+                    </strong>
+                    &nbsp; Discount Hurry up! only &nbsp;
+                    <strong>{this.props.productDetails.stock}</strong> products
+                    left in stock!
                   </Typography>
                 )}
                 {Object.keys(this.props.productDetails).length === 0 ? (
                   <Skeleton animation="wave" />
                 ) : (
                   <h2 className="mt-10">
-                    Rs. {this.props.productDetails.finalPrice + " "}
+                    Rs. {this.props.productDetails.finalPrice + " "}&nbsp;
                     <span className="text-failure text-strike font-size-14">
                       Rs. {this.props.productDetails.bigPrice}
                     </span>
