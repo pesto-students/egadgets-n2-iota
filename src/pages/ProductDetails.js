@@ -40,16 +40,6 @@ class ProductDetails extends Component {
     if (
       prevChange.productDetailsLoading === true &&
       this.props.productDetailsLoading === false &&
-      this.props.productDetailsError === null
-    ) {
-      NotificationManager.success(
-        "fetched product details successfully",
-        "Success",
-        200
-      );
-    } else if (
-      prevChange.productDetailsLoading === true &&
-      this.props.productDetailsLoading === false &&
       this.props.productDetailsError
     ) {
       NotificationManager.error(
@@ -57,9 +47,7 @@ class ProductDetails extends Component {
           ? this.props.productDetailsError.error
           : "Problem in fetching product details page",
         "Error",
-        this.props.productDetailsError.code
-          ? this.props.productDetailsError.code
-          : 101
+        200
       );
     }
   }
@@ -124,210 +112,218 @@ class ProductDetails extends Component {
     };
 
     return (
-      <Container>
-        <Grid container spacing={4} className="m-auto">
-          <Grid item xs={12} md={5} lg={5}>
-            <div className="product-desc-image">
-              {Object.keys(this.props.productDetails).length === 0 ? (
-                <Skeleton variant="rect" width="100%" height="100%">
-                  <div style={{ paddingTop: "57%" }} />
-                </Skeleton>
-              ) : (
-                <ProductDetailCaerousel
-                  imageArray={handleImageArray(this.props.productDetails)}
-                />
-              )}
-            </div>
-          </Grid>
-          <Grid item xs={12} md={7} lg={7} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
+      <>
+        <Container style={{ marginTop: "100px" }}>
+          <Grid container spacing={4} className="m-auto">
+            <Grid item xs={12} md={5} lg={5}>
+              <div className="product-desc-image">
                 {Object.keys(this.props.productDetails).length === 0 ? (
-                  <Skeleton animation="wave" />
+                  <Skeleton variant="rect" width="100%" height="100%">
+                    <div style={{ paddingTop: "57%" }} />
+                  </Skeleton>
                 ) : (
-                  <h1 className="capitalize">
-                    {this.props.productDetails.name}
-                  </h1>
+                  <ProductDetailCaerousel
+                    imageArray={handleImageArray(this.props.productDetails)}
+                  />
                 )}
-                {Object.keys(this.props.productDetails).length === 0 ? (
-                  <Skeleton animation="wave" />
-                ) : (
-                  <p className="mt-10">
-                    Sell By: {this.props.productDetails.vendorRef.fullName}
-                  </p>
-                )}
-                {Object.keys(this.props.productDetails).length === 0 ? (
-                  <Skeleton animation="wave" />
-                ) : (
-                  <Typography
-                    gutterBottom
-                    variant="body1"
-                    className="mt-10 text-dull text-justify"
-                  >
-                    {handleDescription(
-                      this.props.productDetails.description
-                    ).map((desc, i) =>
-                      i < 2 ? <span key={i}>{desc}.</span> : ""
-                    )}
-                  </Typography>
-                )}
-                {Object.keys(this.props.productDetails).length === 0 ? (
-                  <Skeleton animation="wave" />
-                ) : (
-                  <Typography
-                    gutterBottom
-                    variant="subtitle1"
-                    className="flex-box mt-20"
-                  >
-                    {"Availabiity: "}
-                    {this.props.productDetails.stock > 0 ? (
-                      <div className="flex-box">
-                        <span className="text-success"> In Stock</span>
-                        <CheckIcon className="pl-5" />
-                      </div>
-                    ) : (
-                      <div className="flex-box">
-                        <p className="text-failure"> Currently Not Available</p>
-                        <ClearIcon className="pl-5 text-failure" />
-                      </div>
-                    )}
-                  </Typography>
-                )}
-                {Object.keys(this.props.productDetails).length === 0 ? (
-                  <Skeleton animation="wave" />
-                ) : (
-                  <Typography
-                    variant="subtitle1"
+              </div>
+            </Grid>
+            <Grid item xs={12} md={7} lg={7} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  {Object.keys(this.props.productDetails).length === 0 ? (
+                    <Skeleton animation="wave" />
+                  ) : (
+                    <h1 className="capitalize">
+                      {this.props.productDetails.name}
+                    </h1>
+                  )}
+                  {Object.keys(this.props.productDetails).length === 0 ? (
+                    <Skeleton animation="wave" />
+                  ) : (
+                    <p className="mt-10">
+                      Sell By: {this.props.productDetails.vendorRef.fullName}
+                    </p>
+                  )}
+                  {Object.keys(this.props.productDetails).length === 0 ? (
+                    <Skeleton animation="wave" />
+                  ) : (
+                    <Typography
+                      gutterBottom
+                      variant="body1"
+                      className="mt-10 text-dull text-justify"
+                    >
+                      {handleDescription(
+                        this.props.productDetails.description
+                      ).map((desc, i) =>
+                        i < 2 ? <span key={i}>{desc}.</span> : ""
+                      )}
+                    </Typography>
+                  )}
+                  {Object.keys(this.props.productDetails).length === 0 ? (
+                    <Skeleton animation="wave" />
+                  ) : (
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      className="flex-box mt-20"
+                    >
+                      {"Availabiity: "}&nbsp;
+                      {this.props.productDetails.stock > 0 ? (
+                        <div className="flex-box">
+                          <span className="text-success"> In Stock</span>
+                          <CheckIcon className="pl-5" />
+                        </div>
+                      ) : (
+                        <div className="flex-box">
+                          <p className="text-failure">
+                            {" "}
+                            Currently Not Available
+                          </p>
+                          <ClearIcon className="pl-5 text-failure" />
+                        </div>
+                      )}
+                    </Typography>
+                  )}
+                  {Object.keys(this.props.productDetails).length === 0 ? (
+                    <Skeleton animation="wave" />
+                  ) : (
+                    <Typography
+                      variant="subtitle1"
+                      className={
+                        this.props.productDetails.stock > 0 ? "" : "d-none"
+                      }
+                    >
+                      <strong>
+                        Rs.
+                        {this.props.productDetails.bigPrice -
+                          this.props.productDetails.finalPrice}
+                      </strong>
+                      &nbsp; Discount Hurry up! only &nbsp;
+                      <strong>{this.props.productDetails.stock}</strong>{" "}
+                      products left in stock!
+                    </Typography>
+                  )}
+                  {Object.keys(this.props.productDetails).length === 0 ? (
+                    <Skeleton animation="wave" />
+                  ) : (
+                    <h2 className="mt-10">
+                      Rs. {this.props.productDetails.finalPrice + " "}&nbsp;
+                      <span className="text-failure text-strike font-size-14">
+                        Rs. {this.props.productDetails.bigPrice}
+                      </span>
+                    </h2>
+                  )}
+                  <div className="flex-box mt-20">
+                    <TextField
+                      id="outlined-basic"
+                      label="Quantity"
+                      variant="outlined"
+                      className="quantity-field"
+                      name="quantity"
+                      inputProps={{ min: 0, max: 10 }}
+                      onChange={handleQuantityChange}
+                      value={this.state.quantity}
+                    />
+                    <div className="flex-box flex-col-direction quantity-button">
+                      <IconButton
+                        className="p-0"
+                        onClick={() => handleQuantity(1)}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                      <IconButton
+                        className="p-0"
+                        onClick={() => handleQuantity(-1)}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                    </div>
+                  </div>
+
+                  <div
                     className={
-                      this.props.productDetails.stock > 0 ? "" : "d-none"
+                      this.props.productDetails.stock <= 0
+                        ? "disabled flex-box py-10"
+                        : "flex-box py-10"
                     }
                   >
-                    Rs
-                    {this.props.productDetails.bigPrice -
-                      this.props.productDetails.finalPrice}
-                    Discount Hurry up! only {this.props.productDetails.stock}
-                    products left in stock!
-                  </Typography>
-                )}
-                {Object.keys(this.props.productDetails).length === 0 ? (
-                  <Skeleton animation="wave" />
-                ) : (
-                  <h2 className="mt-10">
-                    Rs. {this.props.productDetails.finalPrice + " "}
-                    <span className="text-failure text-strike font-size-14">
-                      Rs. {this.props.productDetails.bigPrice}
-                    </span>
-                  </h2>
-                )}
-                <div className="flex-box mt-20">
-                  <TextField
-                    id="outlined-basic"
-                    label="Quantity"
-                    variant="outlined"
-                    className="quantity-field"
-                    name="quantity"
-                    inputProps={{ min: 0, max: 10 }}
-                    onChange={handleQuantityChange}
-                    value={this.state.quantity}
-                  />
-                  <div className="flex-box flex-col-direction quantity-button">
-                    <IconButton
-                      className="p-0"
-                      onClick={() => handleQuantity(1)}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                    <IconButton
-                      className="p-0"
-                      onClick={() => handleQuantity(-1)}
-                    >
-                      <RemoveIcon />
-                    </IconButton>
+                    <StyledButton
+                      text="Add to cart"
+                      customStyle={{
+                        marginRight: "5px",
+                      }}
+                      disabled={this.props.productDetails.stock <= 0}
+                      onHandleClick={handleAddToCart}
+                    />
+                    <StyledButton
+                      text="Buy Now"
+                      customStyle={{
+                        backgroundColor: "#000",
+                        marginLeft: "15px",
+                      }}
+                      disabled={this.props.productDetails.stock <= 0}
+                      onHandleClick={handleBuyNow}
+                    />
                   </div>
-                </div>
-
-                <div
-                  className={
-                    this.props.productDetails.stock <= 0
-                      ? "disabled flex-box py-10"
-                      : "flex-box py-10"
-                  }
-                >
-                  <StyledButton
-                    text="Add to cart"
-                    customStyle={{
-                      marginRight: "5px",
-                    }}
-                    disabled={this.props.productDetails.stock <= 0}
-                    onHandleClick={handleAddToCart}
-                  />
-                  <StyledButton
-                    text="Buy Now"
-                    customStyle={{
-                      backgroundColor: "#000",
-                      marginLeft: "15px",
-                    }}
-                    disabled={this.props.productDetails.stock <= 0}
-                    onHandleClick={handleBuyNow}
-                  />
-                </div>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <div>
-          <div className="p-10 mt-10">
-            <Typography variant="h6">More Details :</Typography>
-            {Object.keys(this.props.productDetails).length === 0 ? (
-              <div>
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-              </div>
-            ) : (
-              <ul className="pl-15">
-                {handleDescription(this.props.productDetails.description).map(
-                  (desc, i) => (
+          <div>
+            <div className="p-10 mt-10">
+              <Typography variant="h6">More Details :</Typography>
+              {Object.keys(this.props.productDetails).length === 0 ? (
+                <div>
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                </div>
+              ) : (
+                <ul className="pl-15">
+                  {handleDescription(this.props.productDetails.description).map(
+                    (desc, i) => (
+                      <li key={i}>
+                        <Typography variant="subtitle1">{desc}</Typography>
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
+            </div>
+
+            <div className="p-10">
+              <Typography variant="h6">Key Specification :</Typography>
+
+              {Object.keys(this.props.productDetails).length === 0 ? (
+                <div>
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                </div>
+              ) : (
+                <ul className="pl-15">
+                  {handleDescription(
+                    this.props.productDetails.keySpecification
+                  ).map((desc, i) => (
                     <li key={i}>
                       <Typography variant="subtitle1">{desc}</Typography>
                     </li>
-                  )
-                )}
-              </ul>
-            )}
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-
-          <div className="p-10">
-            <Typography variant="h6">Key Specification :</Typography>
-
-            {Object.keys(this.props.productDetails).length === 0 ? (
-              <div>
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-              </div>
-            ) : (
-              <ul className="pl-15">
-                {handleDescription(
-                  this.props.productDetails.keySpecification
-                ).map((desc, i) => (
-                  <li key={i}>
-                    <Typography variant="subtitle1">{desc}</Typography>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </>
     );
   }
 }

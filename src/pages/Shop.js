@@ -1,54 +1,54 @@
-import { Container, Grid } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import ItemsCarousel from '../components/common/Carousel/ItemsCarousel';
-import settings from '../settings/ShopBannerSettings';
-import '../styles/pages/Shop.css';
-import Product from '../components/common/ProductContainer/Product';
-import CategoryList from '../components/CategoryList';
-import { styled } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputBase from '@material-ui/core/InputBase';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategoryProductsData } from '../actions/CategoryProductsAction';
-import ProductsSkeleton from '../components/common/ProductsSkeleton';
-import queryString from 'query-string';
-import { getFeaturedProductsData } from '../actions/FeaturedProductsAction';
-import { getNewProductsData } from '../actions/NewProductsAction';
-import { searchProductApi } from '../apis/SearchProductApi';
-const _ = require('lodash');
+import { Container, Grid } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import ItemsCarousel from "../components/common/Carousel/ItemsCarousel";
+import settings from "../settings/ShopBannerSettings";
+import "../styles/pages/Shop.css";
+import Product from "../components/common/ProductContainer/Product";
+import CategoryList from "../components/CategoryList";
+import { styled } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputBase from "@material-ui/core/InputBase";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategoryProductsData } from "../actions/CategoryProductsAction";
+import ProductsSkeleton from "../components/common/ProductsSkeleton";
+import queryString from "query-string";
+import { getFeaturedProductsData } from "../actions/FeaturedProductsAction";
+import { getNewProductsData } from "../actions/NewProductsAction";
+import { searchProductApi } from "../apis/SearchProductApi";
+const _ = require("lodash");
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  'label + &': {
+  "label + &": {
     marginTop: theme.spacing(3),
   },
-  '& .MuiInputBase-input': {
+  "& .MuiInputBase-input": {
     borderRadius: 4,
-    position: 'relative',
+    position: "relative",
     backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
+    border: "1px solid #ced4da",
     fontSize: 16,
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    padding: "10px 26px 10px 12px",
+    transition: theme.transitions.create(["border-color", "box-shadow"]),
     // Use the system font instead of the default Roboto font.
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
+    ].join(","),
+    "&:focus": {
       borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      borderColor: "#80bdff",
+      boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
     },
   },
 }));
@@ -56,9 +56,9 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 function Shop(props) {
   const history = useHistory();
   const [categoryId, setCategoryId] = useState();
-  const [type, setType] = useState('');
-  const [sortBy, setSortBy] = useState('asc');
-  const [keyword, setKeyword] = useState('');
+  const [type, setType] = useState("");
+  const [sortBy, setSortBy] = useState("asc");
+  const [keyword, setKeyword] = useState("");
   const [products, setProducts] = useState([]);
   const [productLoading, setProductLoading] = useState(false);
 
@@ -73,23 +73,23 @@ function Shop(props) {
     window.scrollTo(0, 0);
     if (Object.keys(value).length > 0) {
       setType(value.type);
-      if (value.type.toLowerCase() === 'category') {
-        if (value?.id === null || value?.id === '' || value.id === undefined) {
-          history.push('/not-found');
+      if (value.type.toLowerCase() === "category") {
+        if (value?.id === null || value?.id === "" || value.id === undefined) {
+          history.push("/not-found");
         }
         setCategoryId(value.id);
         dispatch(getCategoryProductsData(value.id));
-      } else if (value.type.toLowerCase() === 'featured-product') {
+      } else if (value.type.toLowerCase() === "featured-product") {
         dispatch(getFeaturedProductsData());
-      } else if (value.type.toLowerCase() === 'new-product') {
+      } else if (value.type.toLowerCase() === "new-product") {
         dispatch(getNewProductsData());
-      } else if (value.type.toLowerCase() === 'search') {
+      } else if (value.type.toLowerCase() === "search") {
         if (
           value?.keyword === null ||
-          value?.keyword === '' ||
+          value?.keyword === "" ||
           value.keyword === undefined
         ) {
-          history.push('/not-found');
+          history.push("/not-found");
         }
         setKeyword(value.keyword);
         setProductLoading(true);
@@ -98,35 +98,35 @@ function Shop(props) {
           setProducts(response?.result);
         });
       } else {
-        setType('featured-product');
+        setType("featured-product");
         dispatch(getFeaturedProductsData());
       }
     } else {
-      setType('featured-product');
+      setType("featured-product");
       dispatch(getFeaturedProductsData());
     }
   }, [categoryId, keyword, props.location.search, history, dispatch]);
 
   const mockData = [
-    { id: 1, image: '/assets/ps4-banner.bmp', url: '#' },
-    { id: 2, image: '/assets/drone-banner.jpg', url: '#' },
+    { id: 1, image: "/assets/ps4-banner.bmp", url: "#" },
+    { id: 2, image: "/assets/drone-banner.jpg", url: "#" },
   ];
 
   const types = [
     {
-      objectId: 'featured-product',
-      category: 'Featured',
+      objectId: "featured-product",
+      category: "Featured",
     },
     {
-      objectId: 'new-product',
-      category: 'New',
+      objectId: "new-product",
+      category: "New",
     },
   ];
 
   const handleCategoryChange = (id) => {
     history.push(`/shop?type=category&id=${id}`);
     setCategoryId(id);
-    setType('category');
+    setType("category");
   };
 
   const handleTypeChange = (id) => {
@@ -137,11 +137,11 @@ function Shop(props) {
 
   return (
     <>
-      <Container className="mt-30">
+      <Container className="mt-30" style={{ marginTop: "100px" }}>
         <ItemsCarousel
           items={mockData}
           settings={settings}
-          customStyle={{ width: '100%', height: '250px' }}
+          customStyle={{ width: "100%", height: "250px" }}
         />
 
         <div className="mt-50">
@@ -181,7 +181,7 @@ function Shop(props) {
               />
             </Grid>
 
-            {type === 'category' && (
+            {type === "category" && (
               <Grid item lg={9} md={9} sm={8} xs={12}>
                 <Grid container spacing={2}>
                   {categoryProducts &&
@@ -191,7 +191,7 @@ function Shop(props) {
                   ) : categoryProducts?.categoryProductsData.length > 0 ? (
                     _.orderBy(
                       categoryProducts.categoryProductsData,
-                      ['finalPrice'],
+                      ["finalPrice"],
                       [sortBy]
                     )
                       .map((x) => ({
@@ -230,7 +230,7 @@ function Shop(props) {
             )}
 
             {/* new-products Id */}
-            {type === 'new-product' && (
+            {type === "new-product" && (
               <Grid item lg={9} md={9} sm={8} xs={12}>
                 <Grid container spacing={2}>
                   {newProducts && newProducts.newProductsDataLoader ? (
@@ -238,7 +238,7 @@ function Shop(props) {
                   ) : newProducts.newProductsData ? (
                     _.orderBy(
                       newProducts?.newProductsData,
-                      ['finalPrice'],
+                      ["finalPrice"],
                       [sortBy]
                     )
                       .map((x) => ({
@@ -278,7 +278,7 @@ function Shop(props) {
             )}
 
             {/* search */}
-            {type === 'search' && (
+            {type === "search" && (
               <Grid item lg={9} md={9} sm={8} xs={12}>
                 <h4 className="mb-10">
                   Search Results: {products && products?.length}
@@ -290,7 +290,7 @@ function Shop(props) {
                   Object.keys(products).length === 0 ? (
                     <ProductsSkeleton count={3} column={4} />
                   ) : products && products.length > 0 ? (
-                    _.orderBy(products, ['finalPrice'], [sortBy])
+                    _.orderBy(products, ["finalPrice"], [sortBy])
                       .map((x) => ({
                         id: x.objectId,
                         productName: x.name,
@@ -328,7 +328,7 @@ function Shop(props) {
             )}
 
             {/* featured-product Id */}
-            {type === 'featured-product' && (
+            {type === "featured-product" && (
               <Grid item lg={9} md={9} sm={8} xs={12}>
                 <Grid container spacing={2}>
                   {featuredProducts &&
@@ -337,7 +337,7 @@ function Shop(props) {
                   ) : featuredProducts?.featuredProductsData ? (
                     _.orderBy(
                       featuredProducts.featuredProductsData,
-                      ['finalPrice'],
+                      ["finalPrice"],
                       [sortBy]
                     )
                       .map((x) => ({

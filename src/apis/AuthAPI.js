@@ -46,7 +46,6 @@ export async function ForgotPasswordAPI(emailId) {
 }
 
 export async function SignUpAPI(payload) {
-    console.log(payload);
     try {
         const url = serverUrl + 'users';
         const body = payload;

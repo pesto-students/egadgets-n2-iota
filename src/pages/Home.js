@@ -1,24 +1,24 @@
-import { Container, Grid } from '@material-ui/core';
-import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import Banner from '../components/common/Banner';
-import ItemsCarousel from '../components/common/Carousel/ItemsCarousel';
-import ProductList from '../components/common/ProductContainer/ProductList';
-import SlickSettings from '../settings/SlickSettings';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { useSelector } from 'react-redux';
-import ProductsSkeleton from '../components/common/ProductsSkeleton';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { useHistory } from 'react-router-dom';
+import { Container, Grid } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Carousel } from "react-responsive-carousel";
+import Banner from "../components/common/Banner";
+import ItemsCarousel from "../components/common/Carousel/ItemsCarousel";
+import ProductList from "../components/common/ProductContainer/ProductList";
+import SlickSettings from "../settings/SlickSettings";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useSelector } from "react-redux";
+import ProductsSkeleton from "../components/common/ProductsSkeleton";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { useHistory } from "react-router-dom";
 
 const promotions = [
   {
-    image: 'assets/ads1.webp',
-    url: '/',
+    image: "assets/ads1.webp",
+    url: "/",
   },
   {
-    image: 'assets/ads2.webp',
-    url: '/',
+    image: "assets/ads2.webp",
+    url: "/",
   },
 ];
 
@@ -27,6 +27,9 @@ function Home() {
   const categoryState = useSelector((state) => state.categories);
   const newProducts = useSelector((state) => state.newProducts);
   const featuredProducts = useSelector((state) => state.featuredProducts);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Carousel
@@ -48,7 +51,7 @@ function Home() {
 
       <Container>
         {categoryState.categoryDataLoader ? (
-          <Grid container spacing={2} style={{ marginTop: '50px' }}>
+          <Grid container spacing={2} style={{ marginTop: "50px" }}>
             <Grid item lg={3} md={3} sm={4} xs={12}>
               <Skeleton variant="rect" width={300} height={150} />
             </Grid>
@@ -93,7 +96,7 @@ function Home() {
               title="FEATURED PRODUCTS"
               showBtn={true}
               onViewMoreClick={() => {
-                history.push('/shop?type=featured-products');
+                history.push("/shop?type=featured-products");
               }}
             />
           )}
@@ -114,7 +117,7 @@ function Home() {
               title="newly arrived products"
               showBtn={true}
               onViewMoreClick={() => {
-                history.push('/shop?type=new-products');
+                history.push("/shop?type=new-products");
               }}
             />
           )}
