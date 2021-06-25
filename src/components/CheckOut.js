@@ -12,6 +12,7 @@ import SingleAddress from "./common/SingleAddress";
 import CreateOrderApi from "../apis/CreateOrderApi";
 import { ClearCart } from "../actions/CartAction";
 import { NotificationManager } from "react-notifications";
+import { cartQuantity } from "../helpers/Util";
 
 class Checkout extends Component {
   state = {
@@ -22,6 +23,7 @@ class Checkout extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     const cookies = new Cookies();
     const sessionToken = cookies.get("sessionToken");
     if (sessionToken === null || sessionToken === undefined) {
@@ -33,6 +35,12 @@ class Checkout extends Component {
           sessionToken,
         })
       );
+    } else if (this.props.addressData && this.props.addressData.length > 0) {
+      this.setState({
+        ...this.state,
+        addressData: this.props.addressData,
+        selectedShippingAddress: this.props.addressData[0],
+      });
     } else if (sessionToken && Object.keys(this.props.authData).length > 0) {
       this.props.dispatch(fetchingAddressData(this.props.authData.objectId));
     }
@@ -43,6 +51,10 @@ class Checkout extends Component {
   }
 
   componentDidUpdate(prevChange) {
+    if (this.props.totalItems === 0) {
+      this.props.history.push("/");
+    }
+
     if (
       prevChange.authLoading === true &&
       this.props.authLoading === false &&
@@ -101,7 +113,14 @@ class Checkout extends Component {
           "Success",
           200
         );
+
+        this.props.dispatch(fetchingAddressData(this.props.authData.objectId));
       }
+    } else if (
+      prevChange.saveAddressLoading === false &&
+      this.props.saveAddressLoading === true
+    ) {
+      NotificationManager.info("Save Address is loading", "Loading", 200);
     } else if (
       prevChange.saveAddressLoading === true &&
       this.props.saveAddressLoading === false &&
@@ -226,7 +245,7 @@ class Checkout extends Component {
     // End of razor pay
     return (
       <>
-        <Container>
+        <Container style={{ marginTop: "100px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={12} lg={12} sm={12}>
               <section className="checkout-card mt-50">
@@ -307,7 +326,7 @@ class Checkout extends Component {
 
 const mapStateToProps = (state) => ({
   items: state.carts.Carts,
-  totalItems: state.carts.numberCart,
+  totalItems: cartQuantity(state.carts.Carts || []),
 
   authLoading: state.auth.authLoading,
   authData: state.auth.user,

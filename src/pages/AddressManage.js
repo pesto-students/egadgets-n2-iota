@@ -86,11 +86,7 @@ class AddressManage extends Component {
       }
     }
 
-    if (
-      !!!prevChange.deleteAddressLoading &&
-      this.props.deleteAddressLoading === true &&
-      this.props.deleteAddressError === null
-    ) {
+    if (this.props.deleteAddressLoading === true) {
       NotificationManager.info("Address Delete is loading", "Loading", 200);
     }
 
@@ -156,8 +152,9 @@ class AddressManage extends Component {
         ...this.state,
         addressData: [
           ...this.state.addressData,
-          { ...addressData, id: this.state.id++ },
+          { ...addressData, id: this.state.id + 1 },
         ],
+        id: this.state.id + 1,
       });
     };
 
@@ -188,64 +185,68 @@ class AddressManage extends Component {
     };
 
     return (
-      <Container>
-        <Grid
-          container
-          direction="column"
-          className={this.props.isFromProfile ? "h-100" : "border p-10 h-100"}
+      <>
+        <Container
+          style={{ marginTop: this.props.isFromProfile ? "" : "100px" }}
         >
-          <Grid item>
-            <div className="w-100 flex-box">
-              <h3 className="text-align-center flex-1 p-10">
-                Address Information
-              </h3>
-              <StyledButton
-                text="Add"
-                customStyle={{
-                  backgroundColor: "#FF8A00",
-                  marginLeft: "auto",
-                }}
-                onHandleClick={handleAdd}
-              />
-            </div>
-          </Grid>
-
-          {this.props.addressDataLoading &&
-          this.state.addressData.length === 0 ? (
+          <Grid
+            container
+            direction="column"
+            className={this.props.isFromProfile ? "h-100" : "border p-10 h-100"}
+          >
             <Grid item>
-              <Paper className="p-20">
-                <SingleAddress loading={true} />
-              </Paper>
+              <div className="w-100 flex-box">
+                <h3 className="text-align-center flex-1 p-10">
+                  Address Information
+                </h3>
+                <StyledButton
+                  text="Add"
+                  customStyle={{
+                    backgroundColor: "#FF8A00",
+                    marginLeft: "auto",
+                  }}
+                  onHandleClick={handleAdd}
+                />
+              </div>
             </Grid>
-          ) : (
-            <div>
-              {this.state.addressData &&
-                this.state.addressData.length > 0 &&
-                this.state.addressData.map((address, i) => (
-                  <Grid item key={i}>
-                    <Paper className="p-20 mt-10">
-                      <SingleAddress
-                        addressData={address}
-                        loading={false}
-                        onRemove={removeAddress.bind(null, address)}
-                        addressSaved={updateAddress.bind(null, address)}
-                      />
+
+            {this.props.addressDataLoading &&
+            this.state.addressData.length === 0 ? (
+              <Grid item>
+                <Paper className="p-20">
+                  <SingleAddress loading={true} />
+                </Paper>
+              </Grid>
+            ) : (
+              <div>
+                {this.state.addressData &&
+                  this.state.addressData.length > 0 &&
+                  this.state.addressData.map((address, i) => (
+                    <Grid item key={i}>
+                      <Paper className="p-20 mt-10">
+                        <SingleAddress
+                          addressData={address}
+                          loading={false}
+                          onRemove={removeAddress.bind(null, address)}
+                          addressSaved={updateAddress.bind(null, address)}
+                        />
+                      </Paper>
+                    </Grid>
+                  ))}
+                {this.state.addressData.length === 0 ? (
+                  <Grid item>
+                    <Paper className="p-20 mt-10 text-align-center">
+                      No Address Found
                     </Paper>
                   </Grid>
-                ))}
-              {this.state.addressData.length === 0 ? (
-                <Grid item>
-                  <Paper className="p-20 mt-10 text-align-center">
-                    No Address Found
-                  </Paper>
-                </Grid>
-              ) : (
-                " "
-              )}
-            </div>
-          )}
-        </Grid>
-      </Container>
+                ) : (
+                  " "
+                )}
+              </div>
+            )}
+          </Grid>
+        </Container>
+      </>
     );
   }
 }

@@ -131,11 +131,7 @@ class Profile extends Component {
         })
       );
       this.setState({ ...this.state, editable: !this.state.editable });
-    } else if (
-      !!!prevChange.saveProfileSavingLoading &&
-      this.props.saveProfileSavingLoading === true &&
-      this.props.saveProfileError === null
-    ) {
+    } else if (this.props.saveProfileSavingLoading === true) {
       NotificationManager.info("Profile save is loading", "Loading", 200);
     } else if (
       prevChange.saveProfileSavingLoading === true &&
@@ -196,88 +192,19 @@ class Profile extends Component {
     };
 
     return (
-      <div>
-        <Container>
-          <Grid container direction="row" spacing={3} alignItems="stretch">
-            <Grid item xs={3}>
-              <Grid
-                container
-                direction="column"
-                alignItems="stretch"
-                className="h-100"
-              >
-                <Grid item className="border p-10 ">
-                  <Grid container justify="flex-start" alignItems="center">
-                    <Grid item>
-                      {this.props.authLoading && !!!this.state.name ? (
-                        <Skeleton
-                          animation="wave"
-                          variant="circle"
-                          width={40}
-                          height={40}
-                        ></Skeleton>
-                      ) : (
-                        <Tooltip title={this.state.name}>
-                          <img
-                            src="/assets/icons/userIcon.svg"
-                            className="icons"
-                            alt=""
-                          ></img>
-                        </Tooltip>
-                      )}
-                    </Grid>
-
-                    {this.props.authLoading && !!!this.state.name ? (
-                      <Grid item className="hide-info ">
-                        <Skeleton
-                          animation="wave"
-                          width="100px"
-                          className="ml-10"
-                        ></Skeleton>
-                        <Skeleton
-                          animation="wave"
-                          width="100px"
-                          className="ml-10"
-                        ></Skeleton>
-                      </Grid>
-                    ) : (
-                      <Grid item className="hide-info flex-1">
-                        <Typography
-                          variant="body1"
-                          className=" pl-15 p-5 capitalize w-100"
-                        >
-                          <Truncate className="w-100" lines={3}>
-                            {trimText(this.state.name, 20)}
-                          </Truncate>
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          className=" pl-10 p-5 font-size-14 font-color-gray"
-                        >
-                          <Truncate className="w-100" lines={1}>
-                            {"("}
-                            {this.state.email}
-                            {")"}
-                          </Truncate>
-                        </Typography>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Grid>
-
-                <Grid item className="border p-10 mt-10 flex-1">
-                  <Grid
-                    container
-                    direction="column"
-                    spacing={2}
-                    className="h-100"
-                  >
-                    <Grid
-                      container
-                      justify="flex-start"
-                      alignItems="center"
-                      className="p-10"
-                    >
+      <>
+        <div style={{ marginTop: "100px" }}>
+          <Container>
+            <Grid container direction="row" spacing={3} alignItems="stretch">
+              <Grid item xs={3}>
+                <Grid
+                  container
+                  direction="column"
+                  alignItems="stretch"
+                  className="h-100"
+                >
+                  <Grid item className="border p-10 ">
+                    <Grid container justify="flex-start" alignItems="center">
                       <Grid item>
                         {this.props.authLoading && !!!this.state.name ? (
                           <Skeleton
@@ -287,298 +214,376 @@ class Profile extends Component {
                             height={40}
                           ></Skeleton>
                         ) : (
-                          <Tooltip title="Profile Information">
-                            <IconButton
-                              onClick={() => handlePage("profileInfo")}
-                            >
-                              <AccountCircleIcon />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                      </Grid>
-                      <Grid item className="hide-info">
-                        {this.props.authLoading && !!!this.state.name ? (
-                          <Skeleton
-                            animation="wave"
-                            width="100px"
-                            className="ml-10"
-                          ></Skeleton>
-                        ) : (
-                          <p
-                            className=" pl-10 pointer"
-                            onClick={() => handlePage("profileInfo")}
-                          >
-                            Profile Information
-                          </p>
-                        )}
-                      </Grid>
-                    </Grid>
-
-                    <Grid
-                      container
-                      justify="flex-start"
-                      alignItems="center"
-                      className="p-10"
-                    >
-                      <Grid item>
-                        {this.props.authLoading && !!!this.state.name ? (
-                          <Skeleton
-                            animation="wave"
-                            variant="circle"
-                            width={40}
-                            height={40}
-                          ></Skeleton>
-                        ) : (
-                          <Tooltip title="Manage Address">
-                            <IconButton
-                              onClick={() => handlePage("addressInfo")}
-                            >
-                              <BusinessIcon />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                      </Grid>
-                      <Grid item className="hide-info">
-                        {this.props.authLoading && !!!this.state.name ? (
-                          <Skeleton
-                            animation="wave"
-                            width="100px"
-                            className="ml-10"
-                          ></Skeleton>
-                        ) : (
-                          <p
-                            className="pl-10 pointer"
-                            onClick={() => handlePage("addressInfo")}
-                          >
-                            Manage Addresses
-                          </p>
-                        )}
-                      </Grid>
-                    </Grid>
-
-                    <Grid
-                      container
-                      justify="flex-start"
-                      alignItems="center"
-                      className="mt-auto"
-                    >
-                      <Grid item>
-                        <Tooltip title="Logout">
-                          <IconButton onClick={() => handleLogout()}>
+                          <Tooltip title={this.state.name}>
                             <img
-                              src="/assets/icons/logout.svg"
-                              className="icons ml-5"
+                              src="/assets/icons/userIcon.svg"
+                              className="icons"
                               alt=""
                             ></img>
-                          </IconButton>
-                        </Tooltip>
+                          </Tooltip>
+                        )}
                       </Grid>
-                      <Grid item className="hide-info">
-                        <p
-                          className="text-align-center pointer"
-                          onClick={() => handleLogout()}
-                        >
-                          Logout
-                        </p>
+
+                      {this.props.authLoading && !!!this.state.name ? (
+                        <Grid item className="hide-info ">
+                          <Skeleton
+                            animation="wave"
+                            width="100px"
+                            className="ml-10"
+                          ></Skeleton>
+                          <Skeleton
+                            animation="wave"
+                            width="100px"
+                            className="ml-10"
+                          ></Skeleton>
+                        </Grid>
+                      ) : (
+                        <Grid item className="hide-info flex-1">
+                          <Typography
+                            variant="body1"
+                            className=" pl-15 p-5 capitalize w-100"
+                          >
+                            <Truncate className="w-100" lines={3}>
+                              {trimText(this.state.name, 20)}
+                            </Truncate>
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            className=" pl-10 p-5 font-size-14 font-color-gray"
+                          >
+                            <Truncate className="w-100" lines={1}>
+                              {"("}
+                              {this.state.email}
+                              {")"}
+                            </Truncate>
+                          </Typography>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </Grid>
+
+                  <Grid item className="border p-10 mt-10 flex-1">
+                    <Grid
+                      container
+                      direction="column"
+                      spacing={2}
+                      className="h-100"
+                    >
+                      <Grid
+                        container
+                        justify="flex-start"
+                        alignItems="center"
+                        className="p-10"
+                      >
+                        <Grid item>
+                          {this.props.authLoading && !!!this.state.name ? (
+                            <Skeleton
+                              animation="wave"
+                              variant="circle"
+                              width={40}
+                              height={40}
+                            ></Skeleton>
+                          ) : (
+                            <Tooltip title="Profile Information">
+                              <IconButton
+                                onClick={() => handlePage("profileInfo")}
+                              >
+                                <AccountCircleIcon />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </Grid>
+                        <Grid item className="hide-info">
+                          {this.props.authLoading && !!!this.state.name ? (
+                            <Skeleton
+                              animation="wave"
+                              width="100px"
+                              className="ml-10"
+                            ></Skeleton>
+                          ) : (
+                            <p
+                              className=" pl-10 pointer"
+                              onClick={() => handlePage("profileInfo")}
+                            >
+                              Profile Information
+                            </p>
+                          )}
+                        </Grid>
+                      </Grid>
+
+                      <Grid
+                        container
+                        justify="flex-start"
+                        alignItems="center"
+                        className="p-10"
+                      >
+                        <Grid item>
+                          {this.props.authLoading && !!!this.state.name ? (
+                            <Skeleton
+                              animation="wave"
+                              variant="circle"
+                              width={40}
+                              height={40}
+                            ></Skeleton>
+                          ) : (
+                            <Tooltip title="Manage Address">
+                              <IconButton
+                                onClick={() => handlePage("addressInfo")}
+                              >
+                                <BusinessIcon />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </Grid>
+                        <Grid item className="hide-info">
+                          {this.props.authLoading && !!!this.state.name ? (
+                            <Skeleton
+                              animation="wave"
+                              width="100px"
+                              className="ml-10"
+                            ></Skeleton>
+                          ) : (
+                            <p
+                              className="pl-10 pointer"
+                              onClick={() => handlePage("addressInfo")}
+                            >
+                              Manage Addresses
+                            </p>
+                          )}
+                        </Grid>
+                      </Grid>
+
+                      <Grid
+                        container
+                        justify="flex-start"
+                        alignItems="center"
+                        className="mt-auto"
+                      >
+                        <Grid item>
+                          <Tooltip title="Logout">
+                            <IconButton onClick={() => handleLogout()}>
+                              <img
+                                src="/assets/icons/logout.svg"
+                                className="icons ml-5"
+                                alt=""
+                              ></img>
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
+                        <Grid item className="hide-info">
+                          <p
+                            className="text-align-center pointer"
+                            onClick={() => handleLogout()}
+                          >
+                            Logout
+                          </p>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={9} className="min-height-70vh">
-              {this.state.enableProfile ? (
-                <Grid
-                  container
-                  direction="column"
-                  className="border p-10 h-100"
-                  justify="center"
-                >
-                  <Grid item>
-                    <Grid container>
-                      <Grid item className=" flex-box ml-auto mr-auto">
-                        <h3 className="text-align-center flex-1 ">
-                          Profile Information
-                        </h3>
-                      </Grid>
+              <Grid item xs={9} className="min-height-70vh">
+                {this.state.enableProfile ? (
+                  <Grid
+                    container
+                    direction="column"
+                    className="border p-10 h-100"
+                    justify="center"
+                  >
+                    <Grid item>
+                      <Grid container>
+                        <Grid item className=" flex-box ml-auto mr-auto">
+                          <h3 className="text-align-center flex-1 ">
+                            Profile Information
+                          </h3>
+                        </Grid>
 
-                      <Grid item>
-                        {!this.state.editable ? (
-                          <StyledButton
-                            text="Save"
-                            customStyle={{
-                              backgroundColor: "#b8cd06",
-                              marginLeft: "5px",
-                            }}
-                            onHandleClick={handleSave.bind(this)}
-                          />
-                        ) : (
-                          <StyledButton
-                            text="Edit"
-                            customStyle={{
-                              backgroundColor: "#ff8a00",
-                              marginLeft: "5px",
-                            }}
-                            onHandleClick={handleEditing}
-                          />
-                        )}
+                        <Grid item>
+                          {!this.state.editable ? (
+                            <StyledButton
+                              text="Save"
+                              customStyle={{
+                                backgroundColor: "#b8cd06",
+                                marginLeft: "5px",
+                              }}
+                              onHandleClick={handleSave.bind(this)}
+                            />
+                          ) : (
+                            <StyledButton
+                              text="Edit"
+                              customStyle={{
+                                backgroundColor: "#ff8a00",
+                                marginLeft: "5px",
+                              }}
+                              onHandleClick={handleEditing}
+                            />
+                          )}
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
 
-                  <Grid item className="mt-20 pl-10">
-                    <p className="pb-10">Name</p>
+                    <Grid item className="mt-20 pl-10">
+                      <p className="pb-10">Name</p>
 
-                    {this.props.authLoading && !!!this.state.name ? (
-                      <Skeleton animation="wave" width="100%" className="p-10">
-                        <div className="p-20"></div>{" "}
-                      </Skeleton>
-                    ) : (
-                      <TextField
-                        id="outlined-basic"
-                        label="Name"
-                        variant="outlined"
-                        name="name"
-                        className="w-100"
-                        disabled={this.state.editable}
-                        value={this.state.name}
-                        onChange={handleInput}
-                      />
-                    )}
-                  </Grid>
-
-                  <Grid item className="mt-20 pl-10">
-                    {this.props.authLoading && !!!this.state.name ? (
-                      <div>
-                        <p className="pb-10">Gender</p>
-                        <div className="flex-box">
-                          <Skeleton
-                            animation="wave"
-                            variant="circle"
-                            width="15px"
-                          ></Skeleton>
-                          <Skeleton
-                            animation="wave"
-                            width="100px"
-                            className="ml-10 p-10"
-                          ></Skeleton>
-                          <Skeleton
-                            animation="wave"
-                            variant="circle"
-                            width="15px"
-                            className="ml-10"
-                          ></Skeleton>
-                          <Skeleton
-                            animation="wave"
-                            width="100px"
-                            className="ml-10 p-10"
-                          ></Skeleton>
-                        </div>
-                      </div>
-                    ) : (
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Gender</FormLabel>
-                        <RadioGroup
-                          aria-label="gender"
-                          name="gender1"
-                          className="flex-box flex-row"
-                          value={this.state.gender}
-                          onChange={handleChange}
+                      {this.props.authLoading && !!!this.state.name ? (
+                        <Skeleton
+                          animation="wave"
+                          width="100%"
+                          className="p-10"
                         >
-                          <FormControlLabel
-                            value="female"
-                            control={<Radio />}
-                            label="Female"
-                            disabled={this.state.editable}
-                          />
-                          <FormControlLabel
-                            value="male"
-                            control={<Radio />}
-                            label="Male"
-                            disabled={this.state.editable}
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    )}
-                  </Grid>
-                  <Grid item className="mt-20 pl-10">
-                    <p className="pb-10">Phone Number</p>
-                    {this.props.authLoading && !!!this.state.name ? (
-                      <Skeleton animation="wave" width="100%" className="p-10">
-                        <div className="p-20"></div>{" "}
-                      </Skeleton>
-                    ) : (
-                      <TextField
-                        id="outlined-basic"
-                        label="Phone Number"
-                        variant="outlined"
-                        name="phone"
-                        className="w-100"
-                        value={this.state.phone}
-                        disabled={this.state.editable}
-                        onChange={handleInput}
-                      />
-                    )}
-                  </Grid>
+                          <div className="p-20"></div>{" "}
+                        </Skeleton>
+                      ) : (
+                        <TextField
+                          label="Name"
+                          variant="outlined"
+                          name="name"
+                          className="w-100"
+                          disabled={this.state.editable}
+                          value={this.state.name}
+                          onChange={handleInput}
+                        />
+                      )}
+                    </Grid>
 
-                  <Grid item className="mt-20">
-                    <div className="p-10">
-                      <Typography variant="subtitle2" className="d-block">
-                        FAQ
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        className="d-block font-color-green"
-                      >
-                        What happens when I update my email address(or mobile
-                        number) ?
-                      </Typography>
-                      <Typography variant="body2" className="d-block">
-                        Your login email id(or mobile number) changes,
-                        likewise.You 'll receive all your account related
-                        communication on your updated email address(or mobile
-                        number).
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        className="d-block font-color-green mt-10"
-                      >
-                        When will my EGadgets account be updated with the new
-                        email address(or mobile number) ?
-                      </Typography>
-                      <Typography variant="body2" className="d-block">
-                        It happens as soon as you confirm the verification code
-                        sent to your email(or mobile) and save the changes.
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        className="d-block font-color-green mt-10"
-                      >
-                        Does my Seller account get affected when I update my
-                        email address ?
-                      </Typography>
-                      <Typography variant="body2" className="d-block">
-                        EGadgets has a 'single sign-on' policy.Any changes will
-                        reflect in your Seller account also
-                      </Typography>
-                    </div>
-                  </Grid>
-                </Grid>
-              ) : (
-                ""
-              )}
+                    <Grid item className="mt-20 pl-10">
+                      {this.props.authLoading && !!!this.state.name ? (
+                        <div>
+                          <p className="pb-10">Gender</p>
+                          <div className="flex-box">
+                            <Skeleton
+                              animation="wave"
+                              variant="circle"
+                              width="15px"
+                            ></Skeleton>
+                            <Skeleton
+                              animation="wave"
+                              width="100px"
+                              className="ml-10 p-10"
+                            ></Skeleton>
+                            <Skeleton
+                              animation="wave"
+                              variant="circle"
+                              width="15px"
+                              className="ml-10"
+                            ></Skeleton>
+                            <Skeleton
+                              animation="wave"
+                              width="100px"
+                              className="ml-10 p-10"
+                            ></Skeleton>
+                          </div>
+                        </div>
+                      ) : (
+                        <FormControl component="fieldset">
+                          <FormLabel component="legend">Gender</FormLabel>
+                          <RadioGroup
+                            aria-label="gender"
+                            name="gender1"
+                            className="flex-box flex-row"
+                            value={this.state.gender}
+                            onChange={handleChange}
+                          >
+                            <FormControlLabel
+                              value="female"
+                              control={<Radio />}
+                              label="Female"
+                              disabled={this.state.editable}
+                            />
+                            <FormControlLabel
+                              value="male"
+                              control={<Radio />}
+                              label="Male"
+                              disabled={this.state.editable}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      )}
+                    </Grid>
+                    <Grid item className="mt-20 pl-10">
+                      <p className="pb-10">Phone Number</p>
+                      {this.props.authLoading && !!!this.state.name ? (
+                        <Skeleton
+                          animation="wave"
+                          width="100%"
+                          className="p-10"
+                        >
+                          <div className="p-20"></div>{" "}
+                        </Skeleton>
+                      ) : (
+                        <TextField
+                          label="Phone Number"
+                          variant="outlined"
+                          name="phone"
+                          className="w-100"
+                          value={this.state.phone}
+                          disabled={this.state.editable}
+                          onChange={handleInput}
+                        />
+                      )}
+                    </Grid>
 
-              {this.state.enableAddress ? (
-                <div className=" border p-10 h-100">
-                  <AddressManage className="h-100" isFromProfile={true} />
-                </div>
-              ) : (
-                ""
-              )}
+                    <Grid item className="mt-20">
+                      <div className="p-10">
+                        <Typography variant="subtitle2" className="d-block">
+                          FAQ
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          className="d-block font-color-green"
+                        >
+                          What happens when I update my email address(or mobile
+                          number) ?
+                        </Typography>
+                        <Typography variant="body2" className="d-block">
+                          Your login email id(or mobile number) changes,
+                          likewise.You 'll receive all your account related
+                          communication on your updated email address(or mobile
+                          number).
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          className="d-block font-color-green mt-10"
+                        >
+                          When will my EGadgets account be updated with the new
+                          email address(or mobile number) ?
+                        </Typography>
+                        <Typography variant="body2" className="d-block">
+                          It happens as soon as you confirm the verification
+                          code sent to your email(or mobile) and save the
+                          changes.
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          className="d-block font-color-green mt-10"
+                        >
+                          Does my Seller account get affected when I update my
+                          email address ?
+                        </Typography>
+                        <Typography variant="body2" className="d-block">
+                          EGadgets has a 'single sign-on' policy.Any changes
+                          will reflect in your Seller account also
+                        </Typography>
+                      </div>
+                    </Grid>
+                  </Grid>
+                ) : (
+                  ""
+                )}
+
+                {this.state.enableAddress ? (
+                  <div className=" border p-10 h-100">
+                    <AddressManage className="h-100" isFromProfile={true} />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </div>
+          </Container>
+        </div>
+      </>
     );
   }
 }

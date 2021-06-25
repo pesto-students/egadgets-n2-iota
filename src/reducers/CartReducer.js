@@ -5,10 +5,9 @@ import {
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
   CLEAR_CART,
-} from '../constants/ActionTypes';
+} from "../constants/ActionTypes";
 
 const INIT_CART_DATA = {
-  numberCart: 0,
   Carts: [],
 };
 
@@ -19,10 +18,12 @@ const CartReducer = (state = INIT_CART_DATA, action) => {
         ...state,
       };
     case ADD_CART:
-      if (state.numberCart === 0) {
+      if (state.Carts.length === 0) {
         let cart = {
           id: action.payload.id,
-          quantity: action.payload.quantity ? action.payload.quantity : 1,
+          quantity: action.payload.hasOwnProperty("quantity")
+            ? action.payload.quantity
+            : 1,
           name: action.payload.productName,
           description: action.payload.description,
           image: action.payload.image,
@@ -31,16 +32,22 @@ const CartReducer = (state = INIT_CART_DATA, action) => {
         state.Carts.push(cart);
       } else {
         let check = false;
-        state.Carts.map((item, key) => {
+        state.Carts.forEach((item, key) => {
           if (item.id === action.payload.id) {
-            state.Carts[key].quantity++;
+            state.Carts[key].quantity =
+              state.Carts[key].quantity +
+              (action.payload.hasOwnProperty("quantity")
+                ? action.payload.quantity
+                : 1);
             check = true;
           }
         });
         if (!check) {
           let _cart = {
             id: action.payload.id,
-            quantity: action.payload.quantity ? action.payload.quantity : 1,
+            quantity: action.payload.hasOwnProperty("quantity")
+              ? action.payload.quantity
+              : 1,
             name: action.payload.productName,
             description: action.payload.description,
             image: action.payload.image,
@@ -51,10 +58,8 @@ const CartReducer = (state = INIT_CART_DATA, action) => {
       }
       return {
         ...state,
-        numberCart: state.numberCart + 1,
       };
     case INCREASE_QUANTITY:
-      state.numberCart++;
       state.Carts[action.payload].quantity++;
 
       return {
@@ -63,7 +68,6 @@ const CartReducer = (state = INIT_CART_DATA, action) => {
     case DECREASE_QUANTITY:
       let quantity = state.Carts[action.payload].quantity;
       if (quantity > 1) {
-        state.numberCart--;
         state.Carts[action.payload].quantity--;
       }
 
@@ -73,7 +77,6 @@ const CartReducer = (state = INIT_CART_DATA, action) => {
     case DELETE_CART:
       return {
         ...state,
-        numberCart: state.Carts.length - 1,
         Carts: state.Carts.filter((item) => {
           return item.id !== state.Carts[action.payload].id;
         }),
@@ -82,7 +85,6 @@ const CartReducer = (state = INIT_CART_DATA, action) => {
     case CLEAR_CART:
       return {
         ...state,
-        numberCart: 0,
         Carts: [],
       };
 

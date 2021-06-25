@@ -42,7 +42,6 @@ function SignUp(props) {
   const cookies = new Cookies();
   const sessionToken = cookies.get("sessionToken");
   if (sessionToken) {
-    NotificationManager.success("Already loggedin ", "success", 200);
     props.history.push("/");
   }
 
@@ -108,118 +107,123 @@ function SignUp(props) {
   });
 
   return (
-    <div>
-      <Container maxWidth="sm">
-        <Grid container className="mt10">
-          <Grid item>
-            <form onSubmit={formik.handleSubmit} noValidate>
-              <div className="border p10 p1em">
-                <div className="mt-20  mr-10">
-                  <Typography variant="h5" className="text-align-center">
-                    Register
-                  </Typography>
-                </div>
-                <TextField
-                  id="outlined-basic"
-                  label="Your Name"
-                  variant="outlined"
-                  name="name"
-                  className="w-100 mt-20  mr-10"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                />
-
-                <div className="w-100 mt-20 mr-10 flex-box align-items-unset">
+    <>
+      <div style={{ marginTop: "100px" }}>
+        <Container maxWidth="sm">
+          <Grid container className="mt10">
+            <Grid item>
+              <form onSubmit={formik.handleSubmit} noValidate>
+                <div className="border p10 p1em">
+                  <div className="mt-20  mr-10">
+                    <Typography variant="h5" className="text-align-center">
+                      Register
+                    </Typography>
+                  </div>
                   <TextField
-                    id="outlined-select-currency"
-                    select
-                    label="Code"
-                    name="mobileCountryCode"
-                    value={formik.values.mobileCountryCode}
+                    label="Your Name"
+                    variant="outlined"
+                    name="name"
+                    className="w-100 mt-20  mr-10"
+                    value={formik.values.name}
                     onChange={formik.handleChange}
-                    variant="outlined"
-                  >
-                    {phoneIds.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
+                  />
+
+                  <div className="w-100 mt-20 mr-10 flex-box align-items-unset">
+                    <TextField
+                      id="outlined-select-currency"
+                      select
+                      label="Code"
+                      name="mobileCountryCode"
+                      value={formik.values.mobileCountryCode}
+                      onChange={formik.handleChange}
+                      variant="outlined"
+                    >
+                      {phoneIds.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+
+                    <TextField
+                      label="Your mobile Number"
+                      variant="outlined"
+                      name="mobile"
+                      className="ml-10 flex-1"
+                      type="number"
+                      value={formik.values.mobile}
+                      error={
+                        formik.touched.mobile && Boolean(formik.errors.mobile)
+                      }
+                      helperText={formik.touched.mobile && formik.errors.mobile}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
 
                   <TextField
-                    id="outlined-basic"
-                    label="Your mobile Number"
+                    label="Your Email Address"
                     variant="outlined"
-                    name="mobile"
-                    className="ml-10 flex-1"
-                    value={formik.values.mobile}
-                    error={
-                      formik.touched.mobile && Boolean(formik.errors.mobile)
-                    }
-                    helperText={formik.touched.mobile && formik.errors.mobile}
+                    name="email"
+                    className="w-100 mt-20  mr-10"
+                    value={formik.values.email}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                     onChange={formik.handleChange}
                   />
-                </div>
 
-                <TextField
-                  id="outlined-basic"
-                  label="Your Email Address"
-                  variant="outlined"
-                  name="email"
-                  className="w-100 mt-20  mr-10"
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                  onChange={formik.handleChange}
-                />
-
-                <FormControl variant="outlined" className="w-100 mt-20  mr-10">
-                  {/* <InputLabel htmlFor="outlined-adornment-password">
+                  <FormControl
+                    variant="outlined"
+                    className="w-100 mt-20  mr-10"
+                  >
+                    {/* <InputLabel htmlFor="outlined-adornment-password">
                     Password
                   </InputLabel> */}
-                  <TextField
-                    label="Enter you password"
-                    id="outlined-adornment-password"
-                    variant="outlined"
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={formik.values.password}
-                    labelwidth={70}
-                    error={
-                      formik.touched.password && Boolean(formik.errors.password)
-                    }
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
-                    onChange={formik.handleChange}
+                    <TextField
+                      label="Enter you password"
+                      id="outlined-adornment-password"
+                      variant="outlined"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formik.values.password}
+                      labelwidth={70}
+                      error={
+                        formik.touched.password &&
+                        Boolean(formik.errors.password)
+                      }
+                      helperText={
+                        formik.touched.password && formik.errors.password
+                      }
+                      onChange={formik.handleChange}
+                    />
+                  </FormControl>
+                  <StyledButton
+                    text="Register"
+                    customStyle={{
+                      width: "100%",
+                      backgroundColor: "#FF8A00",
+                      borderRadius: "5px",
+                      marginTop: "15px",
+                    }}
+                    type="submit"
+                    loading={loading}
+                    disabled={loading}
                   />
-                </FormControl>
-                <StyledButton
-                  text="Register"
-                  customStyle={{
-                    width: "100%",
-                    backgroundColor: "#FF8A00",
-                    borderRadius: "5px",
-                    marginTop: "15px",
-                  }}
-                  loading={loading}
-                  disabled={loading}
-                />
 
-                <Typography variant="body2" className="mt-20">
-                  Already have an account ?
-                  <Link className="link" to="/signin">
-                    Signin
-                  </Link>
-                </Typography>
-              </div>
-            </form>
+                  <Typography variant="body2" className="mt-20">
+                    Already have an account ?
+                    <Link className="link" to="/signin">
+                      Signin
+                    </Link>
+                  </Typography>
+                </div>
+              </form>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </div>
+        </Container>
+      </div>
+    </>
   );
 }
 

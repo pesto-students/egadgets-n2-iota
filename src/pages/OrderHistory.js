@@ -19,6 +19,7 @@ class OrderHistory extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     const cookies = new Cookies();
     const sessionToken = cookies.get("sessionToken");
 
@@ -72,150 +73,152 @@ class OrderHistory extends Component {
   }
 
   render() {
-    const handleViewContent = (id) => {
-      this.props.history.push(`/products/${id}`);
-    };
-
     return (
-      <Container>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <h2>Your Orders</h2>
+      <>
+        <Container style={{ marginTop: "100px" }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <h2>Your Orders</h2>
+            </Grid>
           </Grid>
-        </Grid>
 
-        {this.state.orders && this.state.orders.length > 0 ? (
-          _.sortBy(this.state.orders, ["createdAt"], ["desc"]).map(
-            (value, key) => (
-              <div key={key}>
-                <Grid
-                  container
-                  className="mt-20 border p-10"
-                  direction="column"
-                  alignItems="stretch"
-                >
-                  <Grid item>
-                    <Grid container direction="row" spacing={2}>
-                      <Grid item md={6} lg={6} sm={6} xs={12}>
-                        <p className="p-5">Order Placed</p>
-                        <p className="p-5 secondaryText">
-                          {new Date(value.createdAt).toLocaleDateString(
-                            "en-IN"
-                          )}
-                        </p>
-                      </Grid>
-                      <Grid item md={2} lg={2} sm={6} xs={12}>
-                        <p className="p-5">Total</p>
-                        <p className="p-5 secondaryText">
-                          {`Rs. ${Number(value.total).toLocaleString("en-IN")}`}
-                        </p>
-                      </Grid>
+          {this.state.orders && this.state.orders.length > 0 ? (
+            _.sortBy(this.state.orders, ["createdAt"], ["desc"]).map(
+              (value, key) => (
+                <div key={key}>
+                  <Grid
+                    container
+                    className="mt-20 border p-10"
+                    direction="column"
+                    alignItems="stretch"
+                  >
+                    <Grid item>
+                      <Grid container direction="row" spacing={2}>
+                        <Grid item md={6} lg={6} sm={6} xs={12}>
+                          <p className="p-5">Order Placed</p>
+                          <p className="p-5 secondaryText">
+                            {new Date(value.createdAt).toLocaleDateString(
+                              "en-IN"
+                            )}
+                          </p>
+                        </Grid>
+                        <Grid item md={2} lg={2} sm={6} xs={12}>
+                          <p className="p-5">Total</p>
+                          <p className="p-5 secondaryText">
+                            {`Rs. ${Number(value.total).toLocaleString(
+                              "en-IN"
+                            )}`}
+                          </p>
+                        </Grid>
 
-                      <Grid item md={2} lg={2} sm={6} xs={12}>
-                        <p className="p-5">Delivery Status</p>
-                        <p className="p-5 secondaryText"> {value.status} </p>
-                      </Grid>
+                        <Grid item md={2} lg={2} sm={6} xs={12}>
+                          <p className="p-5">Delivery Status</p>
+                          <p className="p-5 secondaryText">
+                            {" "}
+                            {value.status ? value.status : "Pending"}{" "}
+                          </p>
+                        </Grid>
 
-                      <Grid item md={2} lg={2} sm={6} xs={12}>
-                        <p className="pt-5">
-                          Order Number - &nbsp;
-                          <span className="secondaryText">
-                            #{value.orderId}
-                          </span>
-                        </p>
+                        <Grid item md={2} lg={2} sm={6} xs={12}>
+                          <p className="p-5">Order Number</p>
+                          <p className="p-5 secondaryText">#{value.orderId}</p>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Divider /> <br />
-                  </Grid>
+                    <Grid item>
+                      <Divider /> <br />
+                    </Grid>
 
-                  <Grid item>
-                    {value.products.map((product) => (
-                      <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        alignItems="center"
-                      >
-                        <Grid item xs={12} md={8} lg={8}>
-                          <Grid container alignItems="center">
-                            <Grid item md={2} lg={2} sm={6} xs={12}>
-                              <img
-                                src={product.image}
-                                alt="product placeholder"
-                                width="60%"
-                              />
-                            </Grid>
-                            <Grid md={10} lg={10} sm={6} xs={12}>
-                              <Link to={`/products/${product.id}`}>
-                                <p className="pl-5">{product.name}</p>
-                              </Link>
+                    <Grid item>
+                      {value.products.map((product, i) => (
+                        <Grid
+                          container
+                          spacing={2}
+                          direction="row"
+                          alignItems="center"
+                          key={i}
+                        >
+                          <Grid item xs={12} md={8} lg={8}>
+                            <Grid container alignItems="center">
+                              <Grid item md={2} lg={2} sm={6} xs={12}>
+                                <img
+                                  src={product.image}
+                                  alt="product placeholder"
+                                  width="60%"
+                                />
+                              </Grid>
+                              <Grid item md={10} lg={10} sm={6} xs={12}>
+                                <Link to={`/products/${product.id}`}>
+                                  <p className="pl-5">{product.name}</p>
+                                </Link>
 
-                              <p className="secondaryText pt-5 pl-5 text-justify">
-                                <Truncate>{product.description}</Truncate>
-                              </p>
+                                <p className="secondaryText pt-5 pl-5 text-justify">
+                                  <Truncate>{product.description}</Truncate>
+                                </p>
+                              </Grid>
                             </Grid>
                           </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            md={2}
+                            lg={2}
+                            className="text-center"
+                          >
+                            <span className="chip">
+                              Qty: {product.quantity}
+                            </span>
+                          </Grid>
+                          <Grid item xs={12} md={2} lg={2}>
+                            {`Rs. ${Number(product.price).toLocaleString(
+                              "en-IN"
+                            )}`}
+                          </Grid>
                         </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          md={2}
-                          lg={2}
-                          className="text-center"
-                        >
-                          <span className="chip">Qty: {product.quantity}</span>
-                        </Grid>
-                        <Grid item xs={12} md={2} lg={2}>
-                          {`Rs. ${Number(product.price).toLocaleString(
-                            "en-IN"
-                          )}`}
-                        </Grid>
-                      </Grid>
-                    ))}
+                      ))}
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
+                </div>
+              )
             )
-          )
-        ) : this.state.orders.length === 0 &&
-          this.state.orderHistoryLoading === false ? (
-          <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <p>You don't have any orders yet!</p>
-            <StyledButton
-              text="Explore Products"
-              onHandleClick={() => this.props.history.push("/")}
-            />
-          </div>
-        ) : (
-          <Grid
-            container
-            spacing={5}
-            alignItems="center"
-            style={{
-              padding: "10px;",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              marginTop: "20px",
-            }}
-          >
-            <Grid item md={2} lg={2} xs={12} sm={6}>
-              <Skeleton variant="rect" width={150} height={150} />
-            </Grid>
+          ) : this.state.orders.length === 0 &&
+            this.props.orderHistoryLoading === false ? (
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+              <p>You don't have any orders yet!</p>
+              <StyledButton
+                text="Explore Products"
+                onHandleClick={() => this.props.history.push("/")}
+              />
+            </div>
+          ) : (
+            <Grid
+              container
+              spacing={5}
+              alignItems="center"
+              style={{
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                marginTop: "20px",
+              }}
+            >
+              <Grid item md={2} lg={2} xs={12} sm={6}>
+                <Skeleton variant="rect" width={150} height={150} />
+              </Grid>
 
-            <Grid item md={8} lg={8} xs={12} sm={6}>
-              <Skeleton variant="text" />
-              <Skeleton width="60%" variant="text" />
-              <Skeleton width="40%" variant="text" />
-            </Grid>
+              <Grid item md={8} lg={8} xs={12} sm={6}>
+                <Skeleton variant="text" />
+                <Skeleton width="60%" variant="text" />
+                <Skeleton width="40%" variant="text" />
+              </Grid>
 
-            <Grid item md={2} lg={2} xs={12} sm={6}>
-              <Skeleton />
+              <Grid item md={2} lg={2} xs={12} sm={6}>
+                <Skeleton />
+              </Grid>
             </Grid>
-          </Grid>
-        )}
-      </Container>
+          )}
+        </Container>
+      </>
     );
   }
 }

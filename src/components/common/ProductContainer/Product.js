@@ -1,15 +1,16 @@
-import React from 'react';
-import StyledButton from '../form/StyledButton';
-import { useDispatch } from 'react-redux';
-import { AddCart } from '../../../actions/CartAction';
-import { Link } from 'react-router-dom';
-import { NotificationManager } from 'react-notifications';
-import Truncate from 'react-truncate';
+import React from "react";
+import StyledButton from "../form/StyledButton";
+import { useDispatch } from "react-redux";
+import { AddCart } from "../../../actions/CartAction";
+import { Link } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
+import Truncate from "react-truncate";
 function Product({ product, showBtn = false }) {
   const dispatch = useDispatch();
   const handleClick = () => {
+    product["quantity"] = 1;
     dispatch(AddCart(product));
-    NotificationManager.success('Item added to the cart', 'Success', 400);
+    NotificationManager.success("Item added to the cart", "Success", 400);
   };
   return (
     <div className="product">
@@ -28,11 +29,11 @@ function Product({ product, showBtn = false }) {
         <Truncate lines={2}>{product.description}</Truncate>
       </p>
       <p className="price">
-        {`Rs. ${Number(product.price).toLocaleString('en-IN')}`}
+        {`Rs. ${Number(product.price).toLocaleString("en-IN")}`}
       </p>
       {showBtn && (
         <StyledButton
-          customStyle={{ width: '100%' }}
+          customStyle={{ width: "100%" }}
           onHandleClick={handleClick}
         />
       )}
