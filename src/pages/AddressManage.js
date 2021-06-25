@@ -20,9 +20,13 @@ class AddressManage extends Component {
     const cookies = new Cookies();
     const sessionToken = cookies.get("sessionToken");
     if (sessionToken && Object.keys(this.props.authData).length > 0) {
-      this.props.dispatch(
-        addressAction.fetchingAddressData(this.props.authData.objectId)
-      );
+      if (this.props.addressData && this.props.addressData.length > 0) {
+        this.setState({ ...this.state, addressData: this.props.addressData });
+      } else {
+        this.props.dispatch(
+          addressAction.fetchingAddressData(this.props.authData.objectId)
+        );
+      }
     } else if (sessionToken) {
       this.props.dispatch(
         fetchingAuthData({
@@ -54,8 +58,15 @@ class AddressManage extends Component {
           ? this.props.addressError.error
           : "Error in fetching address data",
         "Error",
-        this.props.addressError.code ? this.props.addressError.code : 101
+        200
       );
+    }
+    if (
+      prevChange.saveAddressLoading === false &&
+      this.props.saveAddressLoading === true &&
+      this.props.addressError === null
+    ) {
+      NotificationManager.info("Address save is loading", "Loading", 200);
     }
 
     if (
@@ -69,7 +80,14 @@ class AddressManage extends Component {
           "Success",
           200
         );
+        this.props.dispatch(
+          addressAction.fetchingAddressData(this.props.authData.objectId)
+        );
       }
+    }
+
+    if (this.props.deleteAddressLoading === true) {
+      NotificationManager.info("Address Delete is loading", "Loading", 200);
     }
 
     if (
@@ -87,6 +105,9 @@ class AddressManage extends Component {
       );
 
       this.setState({ ...this.state, addressData: add });
+      this.props.dispatch(
+        addressAction.fetchingAddressData(this.props.authData.objectId)
+      );
     }
 
     if (
@@ -107,7 +128,7 @@ class AddressManage extends Component {
           ? this.props.authError.error
           : "Problem in getting user session data",
         "Error",
-        this.props.authError.code ? this.props.authError.code : 101
+        200
       );
       this.props.history.push("/signin");
     }
@@ -128,10 +149,12 @@ class AddressManage extends Component {
       };
 
       this.setState({
+        ...this.state,
         addressData: [
           ...this.state.addressData,
-          { ...addressData, id: this.state.id++ },
+          { ...addressData, id: this.state.id + 1 },
         ],
+        id: this.state.id + 1,
       });
     };
 
@@ -162,64 +185,68 @@ class AddressManage extends Component {
     };
 
     return (
-      <Container>
-        <Grid
-          container
-          direction="column"
-          className={this.props.isFromProfile ? "h-100" : "border p-10 h-100"}
+      <>
+        <Container
+          style={{ marginTop: this.props.isFromProfile ? "" : "100px" }}
         >
-          <Grid item>
-            <div className="w-100 flex-box">
-              <h3 className="text-align-center flex-1 p-10">
-                Address Information
-              </h3>
-              <StyledButton
-                text="Add"
-                customStyle={{
-                  backgroundColor: "#FF8A00",
-                  marginLeft: "auto",
-                }}
-                onHandleClick={handleAdd}
-              />
-            </div>
-          </Grid>
-
-          {this.props.addressDataLoading &&
-          this.state.addressData.length === 0 ? (
+          <Grid
+            container
+            direction="column"
+            className={this.props.isFromProfile ? "h-100" : "border p-10 h-100"}
+          >
             <Grid item>
-              <Paper className="p-20">
-                <SingleAddress loading={true} />
-              </Paper>
+              <div className="w-100 flex-box">
+                <h3 className="text-align-center flex-1 p-10">
+                  Address Information
+                </h3>
+                <StyledButton
+                  text="Add"
+                  customStyle={{
+                    backgroundColor: "#FF8A00",
+                    marginLeft: "auto",
+                  }}
+                  onHandleClick={handleAdd}
+                />
+              </div>
             </Grid>
-          ) : (
-            <div>
-              {this.state.addressData &&
-                this.state.addressData.length > 0 &&
-                this.state.addressData.map((address, i) => (
-                  <Grid item key={i}>
-                    <Paper className="p-20 mt-10">
-                      <SingleAddress
-                        addressData={address}
-                        loading={false}
-                        onRemove={removeAddress.bind(null, address)}
-                        addressSaved={updateAddress.bind(null, address)}
-                      />
+
+            {this.props.addressDataLoading &&
+            this.state.addressData.length === 0 ? (
+              <Grid item>
+                <Paper className="p-20">
+                  <SingleAddress loading={true} />
+                </Paper>
+              </Grid>
+            ) : (
+              <div>
+                {this.state.addressData &&
+                  this.state.addressData.length > 0 &&
+                  this.state.addressData.map((address, i) => (
+                    <Grid item key={i}>
+                      <Paper className="p-20 mt-10">
+                        <SingleAddress
+                          addressData={address}
+                          loading={false}
+                          onRemove={removeAddress.bind(null, address)}
+                          addressSaved={updateAddress.bind(null, address)}
+                        />
+                      </Paper>
+                    </Grid>
+                  ))}
+                {this.state.addressData.length === 0 ? (
+                  <Grid item>
+                    <Paper className="p-20 mt-10 text-align-center">
+                      No Address Found
                     </Paper>
                   </Grid>
-                ))}
-              {this.state.addressData.length === 0 ? (
-                <Grid item>
-                  <Paper className="p-20 mt-10 text-align-center">
-                    No Address
-                  </Paper>
-                </Grid>
-              ) : (
-                " "
-              )}
-            </div>
-          )}
-        </Grid>
-      </Container>
+                ) : (
+                  " "
+                )}
+              </div>
+            )}
+          </Grid>
+        </Container>
+      </>
     );
   }
 }

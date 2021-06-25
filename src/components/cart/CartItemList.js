@@ -1,23 +1,23 @@
-import React from 'react';
-import '../../styles/components/Cart.css';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import CloseIcon from '@material-ui/icons/Close';
-import { useDispatch, useSelector } from 'react-redux';
-import Truncate from 'react-truncate';
+import React from "react";
+import "../../styles/components/Cart.css";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import CloseIcon from "@material-ui/icons/Close";
+import { useDispatch, useSelector } from "react-redux";
+import Truncate from "react-truncate";
 import {
   IncreaseQuantity,
   DecreaseQuantity,
   DeleteCart,
-} from '../../actions/CartAction';
-import { IconButton } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+} from "../../actions/CartAction";
+import { IconButton } from "@material-ui/core";
+import { Link } from "react-router-dom";
 function CartItemList({ noMargin = true }) {
   let listCart = useSelector((state) => state.carts.Carts);
   const dispatch = useDispatch();
 
   return (
-    <div className={noMargin ? 'mt-50' : ''}>
+    <div className={noMargin ? "mt-50" : ""}>
       <table className="cart-table ">
         <thead>
           <tr>
@@ -58,8 +58,11 @@ function CartItemList({ noMargin = true }) {
               <td width="200px">Rs. {item.price * item.quantity}</td>
               <td>
                 <span className="remove-item-icon">
-                  <IconButton color="inherit">
-                    <CloseIcon onClick={() => dispatch(DeleteCart(key))} />
+                  <IconButton
+                    color="inherit"
+                    onClick={() => dispatch(DeleteCart(key))}
+                  >
+                    <CloseIcon />
                   </IconButton>
                 </span>
               </td>

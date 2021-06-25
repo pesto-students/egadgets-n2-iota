@@ -1,7 +1,13 @@
-import React from 'react';
-
+import React from "react";
+import { Container } from "@material-ui/core";
 function NotFound() {
-  return <div>404 page not found.</div>;
+  return (
+    <>
+      <Container style={{ marginTop: "100px" }}>
+        <div>404 page not found.</div>
+      </Container>
+    </>
+  );
 }
 
 export default NotFound;

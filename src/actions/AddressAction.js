@@ -1,7 +1,6 @@
 import * as actions from "../constants/ActionTypes";
 
 export function savingAddressData(addressData) {
-    console.log(addressData);
     return {
         type: actions.SAVING_ADDRESS_DATA,
         payload: addressData
