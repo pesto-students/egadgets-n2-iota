@@ -126,7 +126,7 @@ class SignIn extends Component {
                 {this.state.enabledForgotPassword ? (
                   <TextField
                     id="outlined-basic"
-                    label="Please enter Email-id"
+                    label="Please enter Email"
                     variant="outlined"
                     className="w-100 mt-20 mr-10"
                     name="emailId"
@@ -135,7 +135,7 @@ class SignIn extends Component {
                   />
                 ) : (
                   <TextField
-                    label="Please enter Email-id"
+                    label="Please enter Email"
                     variant="outlined"
                     className="w-100 mt-20 mr-10"
                     name="username"
