@@ -10,6 +10,10 @@
     min-width: 200px;
 }
 
+.font-404 {
+    font-size: 100px;
+}
+
 .text-dull {
     color: #7d7d7d;
 }
@@ -36,6 +40,21 @@
 
 .text-align-right {
     text-align: right;
+}
+
+.not-found a {
+    background-color: #000;
+    color: #fff;
+    border-radius: 2px;
+    text-align: center;
+    margin-top: 40px;
+    border-radius: 3px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.justify-content-center {
+    justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {

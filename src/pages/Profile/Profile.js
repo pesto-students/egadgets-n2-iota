@@ -389,7 +389,7 @@ class Profile extends Component {
                     container
                     direction="column"
                     className="border p-10 h-100"
-                    justify="center"
+                    justify="flex-start"
                   >
                     <Grid item>
                       <Grid container>

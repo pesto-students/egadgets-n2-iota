@@ -121,7 +121,7 @@ class OrderHistory extends Component {
 
                         <Grid item md={2} lg={2} sm={6} xs={12}>
                           <p className="p-5">Order Number</p>
-                          <p className="p-5 secondaryText">#{value.orderId}</p>
+                          <p className="p-5 secondaryText">{value.orderId}</p>
                         </Grid>
                       </Grid>
                     </Grid>
