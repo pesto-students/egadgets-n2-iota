@@ -1,7 +1,7 @@
 import { headers } from '../config';
 export const CreateOrderApi = async(data) => {
     try {
-        const url = 'https://iota.b4a.io/classes/Orders';
+        const url = 'https://parseapi.back4app.com/classes/Orders';
         const params = {
             method: 'POST',
             headers: headers,

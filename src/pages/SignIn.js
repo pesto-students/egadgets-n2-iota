@@ -4,36 +4,36 @@ import {
   TextField,
   Typography,
   CircularProgress,
-} from "@material-ui/core";
-import React, { Component } from "react";
-import "../styles/Style.css";
-import "../styles/components/SignIn.css";
-import StyledButton from "../components/common/form/StyledButton";
-import * as actions from "../actions/AuthAction";
-import { connect } from "react-redux";
-import Cookies from "universal-cookie";
-import { NotificationManager } from "react-notifications";
-import { Link } from "react-router-dom";
+} from '@material-ui/core';
+import React, { Component } from 'react';
+import '../styles/Style.css';
+import '../styles/components/SignIn.css';
+import StyledButton from '../components/common/form/StyledButton';
+import * as actions from '../actions/AuthAction';
+import { connect } from 'react-redux';
+import Cookies from 'universal-cookie';
+import { NotificationManager } from 'react-notifications';
+import { Link } from 'react-router-dom';
 
 class SignIn extends Component {
   state = {
-    username: "",
-    password: "",
+    username: '',
+    password: '',
     enabledForgotPassword: false,
-    emailId: "",
+    emailId: '',
   };
 
   componentDidMount() {
     window.scrollTo(0, 0);
     const cookies = new Cookies();
     const sessionToken = cookies.get(
-      "sessionToken",
+      'sessionToken',
       this.props.profile.sessionToken
     );
     if (sessionToken) {
       this.props.dispatch(
         actions.fetchingAuthData({
-          apiType: "userMe",
+          apiType: 'userMe',
           sessionToken,
         })
       );
@@ -46,9 +46,9 @@ class SignIn extends Component {
       this.props.profileLoading === false &&
       this.props.profileError === null
     ) {
-      NotificationManager.success("Login Successfull", "Success", 400);
+      NotificationManager.success('Login Successfull', 'Success', 400);
       const cookies = new Cookies();
-      cookies.set("sessionToken", this.props.profile.sessionToken);
+      cookies.set('sessionToken', this.props.profile.sessionToken);
       this.props.history.goBack();
     } else if (
       prevChange.profileLoading === true &&
@@ -57,7 +57,7 @@ class SignIn extends Component {
     ) {
       NotificationManager.error(
         this.props.profileError.error,
-        "Error",
+        'Error',
         this.props.profileError.code
       );
     }
@@ -67,7 +67,11 @@ class SignIn extends Component {
       this.props.forgotPasswordLoading === false &&
       this.props.forgotPasswordError === null
     ) {
-      NotificationManager.success(this.props.forgotPassword, "Success", 400);
+      NotificationManager.success(
+        'The link has been sent to your email address',
+        'success',
+        700
+      );
       this.setState({ ...this.state, enabledForgotPassword: false });
     } else if (
       prevChange.forgotPasswordLoading === true &&
@@ -76,7 +80,7 @@ class SignIn extends Component {
     ) {
       NotificationManager.error(
         this.props.forgotPasswordError.error,
-        "Error",
+        'Error',
         200
       );
     }
@@ -86,7 +90,7 @@ class SignIn extends Component {
     const handleSignIn = () => {
       this.props.dispatch(
         actions.fetchingAuthData({
-          apiType: "signIn",
+          apiType: 'signIn',
           username: this.state.username,
           password: this.state.password,
         })
@@ -114,7 +118,7 @@ class SignIn extends Component {
     };
     return (
       <>
-        <Container maxWidth="sm" style={{ marginTop: "100px" }}>
+        <Container maxWidth="sm" style={{ marginTop: '100px' }}>
           <Grid container className="mt10">
             <Grid item className="w-100">
               <div className="border p10">
@@ -156,7 +160,7 @@ class SignIn extends Component {
                     onChange={handleChange}
                   />
                 ) : (
-                  ""
+                  ''
                 )}
                 {!this.state.enabledForgotPassword ? (
                   <div className="flex-box">
@@ -168,7 +172,7 @@ class SignIn extends Component {
                     </p>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
 
                 <div className="p-relative">
@@ -177,22 +181,22 @@ class SignIn extends Component {
                       <StyledButton
                         text="Submit"
                         customStyle={{
-                          width: "45%",
-                          backgroundColor: "#FF8A00",
-                          borderRadius: "5px",
-                          marginTop: "20px",
-                          marginRight: "5%",
+                          width: '45%',
+                          backgroundColor: '#FF8A00',
+                          borderRadius: '5px',
+                          marginTop: '20px',
+                          marginRight: '5%',
                         }}
                         onHandleClick={() => dispatchForgotPassword()}
                       />
                       <StyledButton
                         text="Cancel"
                         customStyle={{
-                          width: "45%",
-                          backgroundColor: "#a1a1a1",
-                          borderRadius: "5px",
-                          marginTop: "20px",
-                          marginLeft: "5%",
+                          width: '45%',
+                          backgroundColor: '#a1a1a1',
+                          borderRadius: '5px',
+                          marginTop: '20px',
+                          marginLeft: '5%',
                         }}
                         onHandleClick={() => handleForgotPassword()}
                       />
@@ -201,10 +205,10 @@ class SignIn extends Component {
                     <StyledButton
                       text="Sign In"
                       customStyle={{
-                        width: "100%",
-                        backgroundColor: "#FF8A00",
-                        borderRadius: "5px",
-                        marginTop: "20px",
+                        width: '100%',
+                        backgroundColor: '#FF8A00',
+                        borderRadius: '5px',
+                        marginTop: '20px',
                       }}
                       onHandleClick={() => handleSignIn()}
                     />
@@ -216,7 +220,7 @@ class SignIn extends Component {
                       size="20px"
                     />
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
 

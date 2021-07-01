@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import "../styles/components/ProductDetails.css";
-import CheckIcon from "@material-ui/icons/Check";
-import { connect } from "react-redux";
-import Skeleton from "@material-ui/lab/Skeleton";
+import React, { Component } from 'react';
+import '../styles/components/ProductDetails.css';
+import CheckIcon from '@material-ui/icons/Check';
+import { connect } from 'react-redux';
+import Skeleton from '@material-ui/lab/Skeleton';
 import {
   Container,
   Grid,
   IconButton,
   TextField,
   Typography,
-} from "@material-ui/core";
-import StyledButton from "../components/common/form/StyledButton";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-import ClearIcon from "@material-ui/icons/Clear";
-import ProductDetailCaerousel from "../components/common/Carousel/ProductDetailCaerousel";
-import { AddCart } from "../actions/CartAction";
-import { NotificationManager } from "react-notifications";
-import * as actions from "../actions/ProductDetailsAction";
+} from '@material-ui/core';
+import StyledButton from '../components/common/form/StyledButton';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import ClearIcon from '@material-ui/icons/Clear';
+import ProductDetailCaerousel from '../components/common/Carousel/ProductDetailCaerousel';
+import { AddCart } from '../actions/CartAction';
+import { NotificationManager } from 'react-notifications';
+import * as actions from '../actions/ProductDetailsAction';
 
 class ProductDetails extends Component {
   state = {
@@ -45,8 +45,8 @@ class ProductDetails extends Component {
       NotificationManager.error(
         this.props.productDetailsError.error
           ? this.props.productDetailsError.error
-          : "Problem in fetching product details page",
-        "Error",
+          : 'Problem in fetching product details page',
+        'Error',
         200
       );
     }
@@ -58,11 +58,11 @@ class ProductDetails extends Component {
       if (temp > 0 && temp < 11) {
         this.setState({ ...this.state, quantity: temp });
       }
-      this.props.productDetails["quantity"] = temp;
+      this.props.productDetails['quantity'] = temp;
     };
     const handleQuantityChange = (event) => {
       if (
-        typeof Number(event.target.value) == "number" &&
+        typeof Number(event.target.value) == 'number' &&
         this.state.quantity < 11 &&
         event.target.value < 11
       ) {
@@ -70,7 +70,7 @@ class ProductDetails extends Component {
           ...this.state,
           [event.target.name]: Number(event.target.value),
         });
-        this.props.productDetails["quantity"] = Number(event.target.value);
+        this.props.productDetails['quantity'] = Number(event.target.value);
       }
     };
 
@@ -88,38 +88,41 @@ class ProductDetails extends Component {
       };
 
       this.props.dispatch(AddCart(productDetailObj));
-      NotificationManager.success("Item added to the cart", "Success", 400);
+      NotificationManager.success('Item added to the cart', 'Success', 400);
     };
 
     const handleImageArray = (props) => {
       let temp = [];
       if (props) {
-        temp[0] = { image: props.image1.url, tag: props.image1.name };
-        temp[1] = { image: props.image2.url, tag: props.image2.name };
-        temp[2] = { image: props.image3.url, tag: props.image3.name };
-        temp[3] = { image: props.image4.url, tag: props.image4.name };
+        temp[0] = { image: props.image1?.url, tag: props.image1?.name };
+        if (props.image2)
+          temp[1] = { image: props.image2?.url, tag: props.image2?.name };
+        if (props.image3)
+          temp[2] = { image: props.image3?.url, tag: props.image3?.name };
+        if (props.image4)
+          temp[3] = { image: props.image4?.url, tag: props.image4?.name };
       }
       return temp;
     };
 
     const handleDescription = (description) => {
-      let tempDescr = description.split("$prod$");
+      let tempDescr = description.split('$prod$');
       return tempDescr;
     };
     const handleBuyNow = () => {
       handleAddToCart();
-      this.props.history.push("/checkout");
+      this.props.history.push('/checkout');
     };
 
     return (
       <>
-        <Container style={{ marginTop: "100px" }}>
+        <Container style={{ marginTop: '100px' }}>
           <Grid container spacing={4} className="m-auto">
             <Grid item xs={12} md={5} lg={5}>
               <div className="product-desc-image">
                 {Object.keys(this.props.productDetails).length === 0 ? (
                   <Skeleton variant="rect" width="100%" height="100%">
-                    <div style={{ paddingTop: "57%" }} />
+                    <div style={{ paddingTop: '57%' }} />
                   </Skeleton>
                 ) : (
                   <ProductDetailCaerousel
@@ -156,7 +159,7 @@ class ProductDetails extends Component {
                       {handleDescription(
                         this.props.productDetails.description
                       ).map((desc, i) =>
-                        i < 2 ? <span key={i}>{desc}.</span> : ""
+                        i < 2 ? <span key={i}>{desc}.</span> : ''
                       )}
                     </Typography>
                   )}
@@ -168,7 +171,7 @@ class ProductDetails extends Component {
                       variant="subtitle1"
                       className="flex-box mt-20"
                     >
-                      {"Availabiity: "}&nbsp;
+                      {'Availabiity: '}&nbsp;
                       {this.props.productDetails.stock > 0 ? (
                         <div className="flex-box">
                           <span className="text-success"> In Stock</span>
@@ -177,7 +180,7 @@ class ProductDetails extends Component {
                       ) : (
                         <div className="flex-box">
                           <p className="text-failure">
-                            {" "}
+                            {' '}
                             Currently Not Available
                           </p>
                           <ClearIcon className="pl-5 text-failure" />
@@ -191,7 +194,7 @@ class ProductDetails extends Component {
                     <Typography
                       variant="subtitle1"
                       className={
-                        this.props.productDetails.stock > 0 ? "" : "d-none"
+                        this.props.productDetails.stock > 0 ? '' : 'd-none'
                       }
                     >
                       <strong>
@@ -200,7 +203,7 @@ class ProductDetails extends Component {
                           this.props.productDetails.finalPrice}
                       </strong>
                       &nbsp; Discount Hurry up! only &nbsp;
-                      <strong>{this.props.productDetails.stock}</strong>{" "}
+                      <strong>{this.props.productDetails.stock}</strong>{' '}
                       products left in stock!
                     </Typography>
                   )}
@@ -208,7 +211,7 @@ class ProductDetails extends Component {
                     <Skeleton animation="wave" />
                   ) : (
                     <h2 className="mt-10">
-                      Rs. {this.props.productDetails.finalPrice + " "}&nbsp;
+                      Rs. {this.props.productDetails.finalPrice + ' '}&nbsp;
                       <span className="text-failure text-strike font-size-14">
                         Rs. {this.props.productDetails.bigPrice}
                       </span>
@@ -244,14 +247,14 @@ class ProductDetails extends Component {
                   <div
                     className={
                       this.props.productDetails.stock <= 0
-                        ? "disabled flex-box py-10"
-                        : "flex-box py-10"
+                        ? 'disabled flex-box py-10'
+                        : 'flex-box py-10'
                     }
                   >
                     <StyledButton
                       text="Add to cart"
                       customStyle={{
-                        marginRight: "5px",
+                        marginRight: '5px',
                       }}
                       disabled={this.props.productDetails.stock <= 0}
                       onHandleClick={handleAddToCart}
@@ -259,8 +262,8 @@ class ProductDetails extends Component {
                     <StyledButton
                       text="Buy Now"
                       customStyle={{
-                        backgroundColor: "#000",
-                        marginLeft: "15px",
+                        backgroundColor: '#000',
+                        marginLeft: '15px',
                       }}
                       disabled={this.props.productDetails.stock <= 0}
                       onHandleClick={handleBuyNow}

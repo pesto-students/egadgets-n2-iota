@@ -1,14 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://iota.b4a.io';
-
-// axios.interceptors.request.use((request) => {
-//   request.headers['X-Parse-Application-Id'] =
-//     'NZK11KBs4bC0ErXQN01qEKU3a3WVWgnr6EM0Syoc';
-//   request.headers['X-Parse-REST-API-Key'] =
-//     'pVDT4kF8JhQvA7iYffZOv9hKzC1mCBVKwbZQPlpz';
-//   return request;
-// });
+axios.defaults.baseURL = 'https://parseapi.back4app.com/';
 
 const responseBody = (response) => response.data;
 

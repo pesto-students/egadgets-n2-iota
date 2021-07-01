@@ -170,7 +170,7 @@ class OrderHistory extends Component {
                             </span>
                           </Grid>
                           <Grid item xs={12} md={2} lg={2}>
-                            {`Rs. ${Number(product.price).toLocaleString(
+                            {`Rs. ${Number(product.price * product.quantity).toLocaleString(
                               "en-IN"
                             )}`}
                           </Grid>
