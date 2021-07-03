@@ -147,7 +147,7 @@ function Shop(props) {
         <div className="mt-50">
           <Grid container spacing={2}>
             <Grid item lg={3} md={3} sm={4} xs={12}>
-              <h3 className="filter-title">Categories {categoryId}</h3>
+              <h3 className="filter-title">Categories</h3>
               <CategoryList
                 categories={categories.categoryData}
                 selectedId={categoryId}

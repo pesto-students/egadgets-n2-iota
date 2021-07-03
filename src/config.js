@@ -1,5 +1,5 @@
-export const appId = 'NZK11KBs4bC0ErXQN01qEKU3a3WVWgnr6EM0Syoc';
-export const restKey = 'pVDT4kF8JhQvA7iYffZOv9hKzC1mCBVKwbZQPlpz';
+export const appId = 'KkLcoJcJsqpGeffWNZdK7hKjd8rUXi5Zy194hTOQ';
+export const restKey = 'biojTvhL2QXaOImFjzGwivYB1L5XPAHas7lDpCqx';
 export const serverUrl = 'https://parseapi.back4app.com/';
 export const razorPayKey = 'rzp_test_gvKhAUPt3TLPdt';
 export const headers = {
