@@ -10,57 +10,57 @@ import {
   TextField,
   Tooltip,
   IconButton,
-} from "@material-ui/core";
-import React, { Component } from "react";
-import "../../styles/components/Profile.css";
-import BusinessIcon from "@material-ui/icons/Business";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import StyledButton from "../../components/common/form/StyledButton";
-import Cookies from "universal-cookie";
-import { savingProfileData } from "../../actions/ProfileAction";
-import { connect } from "react-redux";
-import { Skeleton } from "@material-ui/lab";
-import { fetchingAuthData, resetAuthData } from "../../actions/AuthAction";
-import { NotificationManager } from "react-notifications";
-import AddressManage from "../AddressManage";
-import Truncate from "react-truncate";
-import { trimText } from "../../helpers/Util";
+} from '@material-ui/core';
+import React, { Component } from 'react';
+import '../../styles/components/Profile.css';
+import BusinessIcon from '@material-ui/icons/Business';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import StyledButton from '../../components/common/form/StyledButton';
+import Cookies from 'universal-cookie';
+import { savingProfileData } from '../../actions/ProfileAction';
+import { connect } from 'react-redux';
+import { Skeleton } from '@material-ui/lab';
+import { fetchingAuthData, resetAuthData } from '../../actions/AuthAction';
+import { NotificationManager } from 'react-notifications';
+import AddressManage from '../AddressManage';
+import Truncate from 'react-truncate';
+import { trimText } from '../../helpers/Util';
 
 class Profile extends Component {
   state = {
-    gender: "",
-    email: "",
-    phone: "",
-    name: "",
+    gender: '',
+    email: '',
+    phone: '',
+    name: '',
     editable: true,
     enableProfile: true,
     enableAddress: false,
-    user: "",
-    userId: "",
+    user: '',
+    userId: '',
     initaladdress: {
-      addressTitle: "home",
-      city: "",
-      className: "AddressInfo",
-      firstName: "",
-      lastName: "",
-      mobile: "",
-      pincode: "",
-      state: "",
-      streetAddress: "",
+      addressTitle: 'home',
+      city: '',
+      className: 'AddressInfo',
+      firstName: '',
+      lastName: '',
+      mobile: '',
+      pincode: '',
+      state: '',
+      streetAddress: '',
     },
-    sessionToken: "",
+    sessionToken: '',
   };
 
   componentDidMount() {
     window.scrollTo(0, 0);
     const cookies = new Cookies();
-    const sessionToken = cookies.get("sessionToken");
+    const sessionToken = cookies.get('sessionToken');
     this.setState({ ...this.state, sessionToken });
     if (sessionToken && Object.keys(this.props.authData).length > 0) {
       this.setState({
         gender: this.props.authData.Gender
           ? this.props.authData.Gender
-          : "female",
+          : 'female',
         email: this.props.authData.email,
         phone: Number(this.props.authData.mobile),
         name: this.props.authData.name,
@@ -76,12 +76,12 @@ class Profile extends Component {
     } else if (sessionToken) {
       this.props.dispatch(
         fetchingAuthData({
-          apiType: "userMe",
+          apiType: 'userMe',
           sessionToken,
         })
       );
     } else {
-      this.props.history.push("/signin");
+      this.props.history.push('/signin');
     }
   }
 
@@ -95,7 +95,7 @@ class Profile extends Component {
         ...this.state,
         gender: this.props.authData.Gender
           ? this.props.authData.Gender
-          : "female",
+          : 'female',
         email: this.props.authData.email,
         phone: Number(this.props.authData.mobile),
         name: this.props.authData.name,
@@ -109,11 +109,11 @@ class Profile extends Component {
       NotificationManager.error(
         this.props.authError.error
           ? this.props.authError.error
-          : "Problem in getting user session data",
-        "Error",
+          : 'Problem in getting user session data',
+        'Error',
         200
       );
-      this.props.history.push("/signin");
+      this.props.history.push('/signin');
     }
 
     if (
@@ -121,18 +121,18 @@ class Profile extends Component {
       this.props.saveProfileSavingLoading === false &&
       this.props.saveProfileError === null
     ) {
-      NotificationManager.success("saved successfully", "Success", 200);
+      NotificationManager.success('saved successfully', 'Success', 200);
       const cookies = new Cookies();
-      const sessionToken = cookies.get("sessionToken");
+      const sessionToken = cookies.get('sessionToken');
       this.props.dispatch(
         fetchingAuthData({
-          apiType: "userMe",
+          apiType: 'userMe',
           sessionToken,
         })
       );
       this.setState({ ...this.state, editable: !this.state.editable });
     } else if (this.props.saveProfileSavingLoading === true) {
-      NotificationManager.info("Profile save is loading", "Loading", 200);
+      NotificationManager.info('Profile save is loading', 'Loading', 200);
     } else if (
       prevChange.saveProfileSavingLoading === true &&
       this.props.saveProfileSavingLoading === false &&
@@ -141,8 +141,8 @@ class Profile extends Component {
       NotificationManager.error(
         this.props.saveProfileError.error
           ? this.props.saveProfileError.error
-          : "Problem in saving profile",
-        "Error",
+          : 'Problem in saving profile',
+        'Error',
         200
       );
     }
@@ -160,10 +160,10 @@ class Profile extends Component {
     };
 
     const handlePage = (value) => {
-      if (value === "profileInfo") {
+      if (value === 'profileInfo') {
         this.setState({ enableProfile: true });
         this.setState({ enableAddress: false });
-      } else if (value === "addressInfo") {
+      } else if (value === 'addressInfo') {
         this.setState({ enableAddress: true });
         this.setState({ enableProfile: false });
       }
@@ -173,7 +173,7 @@ class Profile extends Component {
       let saveProfile = {
         Gender: this.state.gender,
         name: this.state.name,
-        mobile: this.state.phone + "",
+        mobile: this.state.phone + '',
         email: this.state.email,
         objectId: this.state.userId
           ? this.state.userId
@@ -186,14 +186,14 @@ class Profile extends Component {
     const handleLogout = () => {
       const cookies = new Cookies();
       this.props.dispatch(resetAuthData());
-      cookies.remove("sessionToken");
-      NotificationManager.success("Logged Out successfully", "Success", 200);
-      this.props.history.push("/");
+      cookies.remove('sessionToken');
+      NotificationManager.success('Logged Out successfully', 'Success', 200);
+      this.props.history.push('/');
     };
 
     return (
       <>
-        <div style={{ marginTop: "100px" }}>
+        <div style={{ marginTop: '100px' }}>
           <Container>
             <Grid container direction="row" spacing={3} alignItems="stretch">
               <Grid item xs={3}>
@@ -252,9 +252,9 @@ class Profile extends Component {
                             className=" pl-10 p-5 font-size-14 font-color-gray"
                           >
                             <Truncate className="w-100" lines={1}>
-                              {"("}
+                              {'('}
                               {this.state.email}
-                              {")"}
+                              {')'}
                             </Truncate>
                           </Typography>
                         </Grid>
@@ -286,7 +286,7 @@ class Profile extends Component {
                           ) : (
                             <Tooltip title="Profile Information">
                               <IconButton
-                                onClick={() => handlePage("profileInfo")}
+                                onClick={() => handlePage('profileInfo')}
                               >
                                 <AccountCircleIcon />
                               </IconButton>
@@ -303,7 +303,7 @@ class Profile extends Component {
                           ) : (
                             <p
                               className=" pl-10 pointer"
-                              onClick={() => handlePage("profileInfo")}
+                              onClick={() => handlePage('profileInfo')}
                             >
                               Profile Information
                             </p>
@@ -328,7 +328,7 @@ class Profile extends Component {
                           ) : (
                             <Tooltip title="Manage Address">
                               <IconButton
-                                onClick={() => handlePage("addressInfo")}
+                                onClick={() => handlePage('addressInfo')}
                               >
                                 <BusinessIcon />
                               </IconButton>
@@ -345,7 +345,7 @@ class Profile extends Component {
                           ) : (
                             <p
                               className="pl-10 pointer"
-                              onClick={() => handlePage("addressInfo")}
+                              onClick={() => handlePage('addressInfo')}
                             >
                               Manage Addresses
                             </p>
@@ -404,8 +404,8 @@ class Profile extends Component {
                             <StyledButton
                               text="Save"
                               customStyle={{
-                                backgroundColor: "#b8cd06",
-                                marginLeft: "5px",
+                                backgroundColor: '#b8cd06',
+                                marginLeft: '5px',
                               }}
                               onHandleClick={handleSave.bind(this)}
                             />
@@ -413,8 +413,8 @@ class Profile extends Component {
                             <StyledButton
                               text="Edit"
                               customStyle={{
-                                backgroundColor: "#ff8a00",
-                                marginLeft: "5px",
+                                backgroundColor: '#ff8a00',
+                                marginLeft: '5px',
                               }}
                               onHandleClick={handleEditing}
                             />
@@ -432,7 +432,7 @@ class Profile extends Component {
                           width="100%"
                           className="p-10"
                         >
-                          <div className="p-20"></div>{" "}
+                          <div className="p-20"></div>{' '}
                         </Skeleton>
                       ) : (
                         <TextField
@@ -509,7 +509,7 @@ class Profile extends Component {
                           width="100%"
                           className="p-10"
                         >
-                          <div className="p-20"></div>{" "}
+                          <div className="p-20"></div>{' '}
                         </Skeleton>
                       ) : (
                         <TextField
@@ -527,49 +527,46 @@ class Profile extends Component {
                     <Grid item className="mt-20">
                       <div className="p-10">
                         <Typography variant="subtitle2" className="d-block">
-                          FAQ
+                          FAQ's
                         </Typography>
                         <Typography
                           variant="body2"
                           className="d-block font-color-green"
                         >
-                          What happens when I update my email address(or mobile
-                          number) ?
+                          What happens when I update mobile number ?
                         </Typography>
                         <Typography variant="body2" className="d-block">
-                          Your login email id(or mobile number) changes,
-                          likewise.You 'll receive all your account related
-                          communication on your updated email address(or mobile
-                          number).
+                          Your mobile number changes, likewise.You 'll receive
+                          all your account related communication on your updated
+                          mobile number.
                         </Typography>
                         <Typography
                           variant="body2"
                           className="d-block font-color-green mt-10"
                         >
                           When will my EGadgets account be updated with the new
-                          email address(or mobile number) ?
+                          address?
                         </Typography>
                         <Typography variant="body2" className="d-block">
-                          It happens as soon as you confirm the verification
-                          code sent to your email(or mobile) and save the
-                          changes.
+                          New address will be updated in the address section of
+                          respective user and it will be selected as default
+                          address for shipping.
                         </Typography>
                         <Typography
                           variant="body2"
                           className="d-block font-color-green mt-10"
                         >
-                          Does my Seller account get affected when I update my
-                          email address ?
+                          Can i update the existing address?
                         </Typography>
                         <Typography variant="body2" className="d-block">
-                          EGadgets has a 'single sign-on' policy.Any changes
-                          will reflect in your Seller account also
+                          EGadgets provides the feature to edit and add new
+                          address for seamless delivery of the product.
                         </Typography>
                       </div>
                     </Grid>
                   </Grid>
                 ) : (
-                  ""
+                  ''
                 )}
 
                 {this.state.enableAddress ? (
@@ -577,7 +574,7 @@ class Profile extends Component {
                     <AddressManage className="h-100" isFromProfile={true} />
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </Grid>
             </Grid>

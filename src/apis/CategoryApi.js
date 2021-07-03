@@ -1,6 +1,5 @@
-const serverUrl = 'https://iota.b4a.io/';
-const appId = 'NZK11KBs4bC0ErXQN01qEKU3a3WVWgnr6EM0Syoc';
-const restKey = 'pVDT4kF8JhQvA7iYffZOv9hKzC1mCBVKwbZQPlpz';
+import { appId, restKey, serverUrl } from '../config';
+
 export const getCategoryDataApi = async () => {
   try {
     const url = serverUrl + 'functions/getCategoriesApi';

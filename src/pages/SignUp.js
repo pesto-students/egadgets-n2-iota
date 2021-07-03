@@ -5,44 +5,44 @@ import {
   Typography,
   TextField,
   MenuItem,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import "../styles/Style.css";
-import "../styles/components/SignIn.css";
-import StyledButton from "../components/common/form/StyledButton";
-import "../styles/components/SignUp.css";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Cookies from "universal-cookie";
-import { NotificationManager } from "react-notifications";
-import { SignUpAPI } from "../apis/AuthAPI";
-import { useDispatch } from "react-redux";
-import { fetchingAuthData } from "../actions/AuthAction";
-import { Link } from "react-router-dom";
-require("yup-phone");
-require("yup-password")(Yup);
+} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import '../styles/Style.css';
+import '../styles/components/SignIn.css';
+import StyledButton from '../components/common/form/StyledButton';
+import '../styles/components/SignUp.css';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Cookies from 'universal-cookie';
+import { NotificationManager } from 'react-notifications';
+import { SignUpAPI } from '../apis/AuthAPI';
+import { useDispatch } from 'react-redux';
+import { fetchingAuthData } from '../actions/AuthAction';
+import { Link } from 'react-router-dom';
+require('yup-phone');
+require('yup-password')(Yup);
 
 function SignUp(props) {
   const [showPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const phoneIds = ["+91", "+1", "+92", "+94"];
+  const phoneIds = ['+91', '+1', '+92', '+94'];
   const dispatch = useDispatch();
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(2, "The name is too short.")
-      .max(50, "The name is too long.")
-      .required("The name is required"),
-    mobile: Yup.string().phone().required("The mobile is required."),
+      .min(2, 'The name is too short.')
+      .max(50, 'The name is too long.')
+      .required('The name is required'),
+    mobile: Yup.string().phone().required('The mobile is required.'),
     email: Yup.string()
-      .email("The email is invalid.")
-      .required("The email is required."),
-    password: Yup.string().password().required("The password is required."),
+      .email('The email is invalid.')
+      .required('The email is required.'),
+    password: Yup.string().password().required('The password is required.'),
   });
 
   const cookies = new Cookies();
-  const sessionToken = cookies.get("sessionToken");
+  const sessionToken = cookies.get('sessionToken');
   if (sessionToken) {
-    props.history.push("/");
+    props.history.push('/');
   }
 
   useEffect(() => {
@@ -51,11 +51,11 @@ function SignUp(props) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      mobile: "",
-      email: "",
-      password: "",
-      mobileCountryCode: "+91",
+      name: '',
+      mobile: '',
+      email: '',
+      password: '',
+      mobileCountryCode: '+91',
     },
     validationSchema: validationSchema,
     onSubmit(values) {
@@ -69,27 +69,27 @@ function SignUp(props) {
           if (resp.error) {
             if (resp.code) {
               NotificationManager.error(
-                "Email already exists",
+                'Email already exists',
                 resp.code,
-                "Error"
+                'Error'
               );
             }
           } else {
             const cookies = new Cookies();
-            cookies.set("sessionToken", resp.sessionToken);
+            cookies.set('sessionToken', resp.sessionToken);
             if (resp.sessionToken) {
               dispatch(
                 fetchingAuthData({
-                  apiType: "userMe",
+                  apiType: 'userMe',
                   sessionToken: resp.sessionToken,
                 })
               );
 
-              props.history.push("/");
+              props.history.push('/');
             }
             NotificationManager.success(
-              "The user is created successfully",
-              "Success"
+              'The user is created successfully',
+              'Success'
             );
             formik.resetForm();
           }
@@ -99,7 +99,7 @@ function SignUp(props) {
           if (error && error?.response) {
             const data = error.response.data;
             if (data.code === 202) {
-              NotificationManager.error("Email already exists", "Error");
+              NotificationManager.error('Email already exists', 'Error');
             }
           }
         });
@@ -108,7 +108,7 @@ function SignUp(props) {
 
   return (
     <>
-      <div style={{ marginTop: "100px" }}>
+      <div style={{ marginTop: '100px' }}>
         <Container maxWidth="sm">
           <Grid container className="mt10">
             <Grid item>
@@ -152,7 +152,6 @@ function SignUp(props) {
                       variant="outlined"
                       name="mobile"
                       className="ml-10 flex-1"
-                      type="number"
                       value={formik.values.mobile}
                       error={
                         formik.touched.mobile && Boolean(formik.errors.mobile)
@@ -184,7 +183,7 @@ function SignUp(props) {
                       label="Enter you password"
                       id="outlined-adornment-password"
                       variant="outlined"
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       name="password"
                       value={formik.values.password}
                       labelwidth={70}
@@ -201,10 +200,10 @@ function SignUp(props) {
                   <StyledButton
                     text="Register"
                     customStyle={{
-                      width: "100%",
-                      backgroundColor: "#FF8A00",
-                      borderRadius: "5px",
-                      marginTop: "15px",
+                      width: '100%',
+                      backgroundColor: '#FF8A00',
+                      borderRadius: '5px',
+                      marginTop: '15px',
                     }}
                     type="submit"
                     loading={loading}
